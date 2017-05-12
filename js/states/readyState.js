@@ -40,15 +40,17 @@ ReadyState.prototype = {
   // When the play button is pushed, move to the next state
   onPlayButtonClick: function() {
 
-    var tweenFadeButton = this.game.add.tween(playButton)
-      //to(properties, duration, ease, autoStart, delay, repeat, yoyo)
-      .to({alpha: 0}, 500, Phaser.Easing.Linear.None, false, 250, 0, false);
-
-    tweenFadeButton.onComplete.add(function(){
-      this.game.state.start('animation');
-    }, this);
-
-    tweenFadeButton.start();
+    this.game.state.start('animation');
+    //
+    // var tweenFadeButton = this.game.add.tween(playButton)
+    //   //to(properties, duration, ease, autoStart, delay, repeat, yoyo)
+    //   .to({alpha: 0}, 500, Phaser.Easing.Linear.None, false, 250, 0, false);
+    //
+    // tweenFadeButton.onComplete.add(function(){
+    //   this.game.state.start('animation');
+    // }, this);
+    //
+    // tweenFadeButton.start();
   },
 
 
