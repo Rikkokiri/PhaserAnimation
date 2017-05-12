@@ -51,7 +51,8 @@ AnimationState.prototype = {
     this.createEssentials();
 
 
-    introSquare = new SolidSquare(100, 100, 50, "0xffffff");
+    introSquare = new SolidSquare(0, 0, 50, "0xffffff");
+    introSquare.centerOn(centerX, centerY);
 
     // Prepare background etc. for the squareslide animation
     // prepareSquareSlideAnimation(this.game.width, this.game.height);
@@ -64,8 +65,6 @@ AnimationState.prototype = {
     // Create the checkered 6 x 8 square grid
     checkeredGrid = createCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0xffffff", true);
 
-    // For testing
-    introSquare = new SolidSquare(100, 100, 50, "0xffffff");
 
     // - - -  Finally... Music! - - -
     music = this.game.add.audio('sail');
@@ -99,19 +98,68 @@ AnimationState.prototype.update = function() {
     delayCounter++;
 
     if(delayCounter >= 24 && delayCounter < 48){
+
+      // TODO Maybe flash something else?
+
       this.game.stage.backgroundColor = "0xffffff";
       // introSquare.drawSquare(this.graphics);
     }
 
     if(delayCounter >= 48){
       this.game.stage.backgroundColor = "0x000000";
+
+      // Prepare for next phase
+      introSquare.centerOn(centerX, centerY);
+      animationNumber = 1;
       delayCounter = 0;
-      animationNumber = 2;
     }
 
   }
 
-  
+  // Prepare for the next phase
+  if(animationNumber == 1){
+    delayCounter++;
+
+    if(delayCounter >= 36){
+      animationNumber = 2;
+      delayCounter = 0;
+    }
+
+  }
+
+  if(animationNumber == 2){
+
+    if(delayCounter % 30 == 0){
+
+      // introSquare.expand(delayCounter);
+      introSquare.expand(delayCounter);
+
+      if(delayCounter >= 150){
+        console.log("Expanding complete");
+        animationNumber = 3;
+      }
+
+      // Square color
+      if((delayCounter / 30) % 2 == 0){
+        introSquare.setColor("0xff0000");
+      }
+      else {
+        introSquare.setColor("0xffffff");
+      }
+
+    }
+
+    introSquare.drawSquare(this.graphics);
+
+    delayCounter++;
+  }
+
+
+  if(animationNumber == 3){
+
+    // ???
+
+  }
 
   // // "Lift" the background to go from blank background to two recntangles
   // if(animationNumber == 0){
