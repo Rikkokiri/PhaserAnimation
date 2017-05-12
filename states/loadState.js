@@ -5,6 +5,10 @@ function LoadState (){}
 
 LoadState.prototype = {
 
+  /*
+   *                P R E L O A D
+   * ============================================
+   */
   preload: function() {
 
     // Center the canvas horizontally and vertically
@@ -21,6 +25,10 @@ LoadState.prototype = {
 
   },
 
+  /*
+   *                U P D A T E
+   * ============================================
+   */
   update: function() {
 
     // If music has been loaded, move to the next state

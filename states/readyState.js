@@ -8,15 +8,21 @@ var playButton;
 
 ReadyState.prototype = {
 
+  /*
+   *                P R E L O A D
+   * ============================================
+   */
   preload: function() {
 
     this.game.load.spritesheet('playbutton', 'resources/playbutton.png');
 
   },
 
+  /*
+   *                C R E A T E
+   * ============================================
+   */
   create: function() {
-
-    console.log("ReadyState active");
 
     // Create the play button
     playButton = this.game.add.button(this.game.width / 2, this.game.height / 2, 'playbutton', this.onPlayButtonClick);

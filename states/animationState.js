@@ -6,6 +6,10 @@ function AnimationState() {}
 
 AnimationState.prototype = {
 
+  /*
+   *                C R E A T E
+   * ============================================
+   */
   create: function() {
 
     // Create the graphics objects and so on...
@@ -30,8 +34,14 @@ AnimationState.prototype = {
 
 }
 
+/*
+ *                U P D A T E
+ * ============================================
+ */
 AnimationState.prototype.update = function() {
 
   this.graphics.clear();
+
+  
 
 }
