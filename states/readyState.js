@@ -24,12 +24,18 @@ ReadyState.prototype = {
     //  setting the anchor to the center
     playButton.anchor.setTo(0.5, 0.5);
 
+    // Hitting the spacebar should also start the animation
+    this.spacebar = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
+    this.spacebar.onDown.add(this.onPlayButtonClick, this);
+
   },
 
-  // TODO update?
   // When the play button is pushed, move to the next state
   onPlayButtonClick: function() {
     this.game.state.start('animation');
-  }
+  },
+
+
 
 };
