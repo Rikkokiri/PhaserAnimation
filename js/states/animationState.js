@@ -134,7 +134,7 @@ AnimationState.prototype.update = function() {
 
     }
 
-    introSquare.drawSquare(this.graphics);
+    introSquare.draw(this.graphics);
 
     delayCounter++;
   }
@@ -201,8 +201,8 @@ AnimationState.prototype.update = function() {
   //     }
   //   }
   //
-  //   drawSquareGrid(this.graphics, checkeredGrid);
-  //   drawSquareGrid(this.graphics, revealSquareGrid);
+  //   drawGrid(this.graphics, checkeredGrid);
+  //   drawGrid(this.graphics, revealSquareGrid);
   // }
   //
   // // Prepare to pulse squares
@@ -210,7 +210,7 @@ AnimationState.prototype.update = function() {
   //   this.game.stage.backgroundColor = "0xffffff";
   //   // checkeredGrid = createCheckeredHalfEmptyGrid(game.width, game.height, squaresInColumn, "0x000000", false);
   //   checkeredGrid = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", false, 100, 100);
-  //   drawSquareGrid(this.graphics, checkeredGrid);
+  //   drawGrid(this.graphics, checkeredGrid);
   //
   //   pulseGoal = 1.2 * checkeredGrid[0][1].sidelength;
   //   returnGoal = checkeredGrid[0][1].sidelength;
@@ -236,7 +236,7 @@ AnimationState.prototype.update = function() {
   //       animationNumber = 7;
   //     }
   //   }
-  //   drawSquareGrid(this.graphics, checkeredGrid);
+  //   drawGrid(this.graphics, checkeredGrid);
   // }
   //
   //
@@ -266,7 +266,7 @@ AnimationState.prototype.update = function() {
   //     rotationSum += Math.abs(rotationAngle);
   //   }
   //   else {
-  //     drawSquareGrid(this.graphics, checkeredGrid);
+  //     drawGrid(this.graphics, checkeredGrid);
   //   }
   // }
 
@@ -281,7 +281,7 @@ AnimationState.prototype.flashBackgroundColors = function(interval, firstColor, 
     // TODO Maybe flash something else?
 
     this.game.stage.backgroundColor = "0xffffff";
-    // introSquare.drawSquare(this.graphics);
+    // introSquare.draw(this.graphics);
   }
 
   if(delayCounter >= 2 * interval){
