@@ -1,16 +1,16 @@
 /**
- * Draw a grid of SolidSquares to given graphics
+ * Draw a grid of any shapes that have function draw() to given graphics
  *
  * @param {} graphics - TODO
  * @param {} grid - TODO
  */
-function drawSquareGrid(graphics, grid) {
+function drawGrid(graphics, grid) {
 
   for(var row = 0; row < grid.length; row++){
     for(var col = 0; col < grid[row].length; col++){
 
-      if(grid[row][col] !== undefined && grid[row][col] instanceof SolidSquare){
-        grid[row][col].drawSquare(graphics);
+      if(grid[row][col] !== undefined){
+        grid[row][col].draw(graphics);
       }
 
     }
@@ -255,7 +255,7 @@ function spinSquaresSameDirection(graphics, grid, rotationAngle) {
       }
     }
     // Draw the grid
-    drawSquareGrid(graphics, grid);
+    drawGrid(graphics, grid);
 }
 
 /*
@@ -283,7 +283,7 @@ function spinSquaresTwoDirections(graphics, grid, rotationAngle) {
     }
 
     // Draw the grid
-    drawSquareGrid(graphics, grid);
+    drawGrid(graphics, grid);
 }
 
 /*
@@ -298,7 +298,7 @@ function shrinkSquares(graphics, grid, amount){
    }
 
    // Draw the grid
-   drawSquareGrid(graphics, grid);
+   drawGrid(graphics, grid);
 }
 
  /*
@@ -313,5 +313,5 @@ function expandSquares(graphics, grid, amount){
     }
 
     // Draw the grid
-    drawSquareGrid(graphics, grid);
+    drawGrid(graphics, grid);
 }
