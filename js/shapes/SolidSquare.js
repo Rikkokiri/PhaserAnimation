@@ -3,17 +3,26 @@
  */
 
 /**
- * Creates a new solid (filled with colour) square.
+ * Create a new square.
  *
- * TODO Documentation
+ * @class SolidSquare
+ * @constructor
  *
  * @param {Number} upperLeftX -
  * @param {Number} upperLeftY -
  * @param {Number} sidelength -
  * @param {String} color -
- *
+ * @param {Number} linewidth -
+ * @param {Boolean} fill - If true, the
  */
-function SolidSquare (upperLeftX, upperLeftY, sidelength, color) {
+function SolidSquare (upperLeftX, upperLeftY, sidelength, color, linewidth, fill) {
+
+  if (upperLeftX === undefined) { upperLeftX = 0; }
+  if (upperLeftY === undefined) { upperLeftY = 0; }
+  if (sidelength === undefined) { sidelength = 0; }
+  if (color === undefined) { color = 0xff0000; }
+  if (linewidth === undefined) { linewidth = 1; }
+  if (fill === undefined) { fill = true; }
 
   this.sidelength = sidelength;
 
@@ -24,13 +33,14 @@ function SolidSquare (upperLeftX, upperLeftY, sidelength, color) {
 
   this.center = new Phaser.Point(upperLeftX + sidelength / 2, upperLeftY + sidelength / 2);
   this.color = color;
+  this.linewidth = linewidth;
+  this.fill = fill;
 
   // Calculate the distance from the corner of the square to the center point of the square
   // Standard Pythagoras
   this.cornerDistance = Math.sqrt(2 * Math.pow((sidelength/2), 2));
 
-
-  // Create the polygon
+  // Create the actual square with Phaser.Polygon
   this.square = new Phaser.Polygon(points);
 
 }
@@ -38,26 +48,12 @@ function SolidSquare (upperLeftX, upperLeftY, sidelength, color) {
 
 SolidSquare.prototype = {
 
-  /**
-   * @return {Phaser.Point} The center point of the square
-   */
-  getCenter: function(){
-    return this.center;
-  },
-
-  /**
-   * @return {Number} Length of the square's side
-   */
-  getSidelength: function(){
-    return this.sidelength;
-  },
-
    /**
     * Draw the square to the given graphics
-    * @param TODO
     *
+    * @param {} graphics - The graphics object that is used for drawing the square.
     */
-   drawSquare: function(graphics) {
+   draw: function(graphics) {
 
      graphics.beginFill(this.color);
      graphics.drawPolygon(this.square);
@@ -68,7 +64,7 @@ SolidSquare.prototype = {
 
    /**
     * Roate square around its center.
-    * @param TODO
+    * @param {} graphics -
     */
    rotateAroundCenter: function(rotationAngle){
      for( var point = 0; point < 4; point++ ) {
