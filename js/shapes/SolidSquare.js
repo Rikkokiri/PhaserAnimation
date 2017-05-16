@@ -8,12 +8,13 @@
  * @class SolidSquare
  * @constructor
  *
- * @param {Number} upperLeftX -
- * @param {Number} upperLeftY -
- * @param {Number} sidelength -
- * @param {String} color -
- * @param {Number} linewidth -
- * @param {Boolean} fill - If true, the
+ * @param {Number} upperLeftX - The x-coordinate of the (originally) upper left corner of the rectangle. [undefined -> 0]
+ * @param {Number} upperLeftY - The y-coordinate of the (originally) upper left corner of the rectangle. [undefined -> 0]
+ * @param {Number} sidelength - The length of the square's side. [undefined -> 0]
+ * @param {String} color - The color that is used to draw the rectangle. Must be a valid hexadecimal number. [undefined -> 0xff0000]
+ * @param {Number} linewidth - Width of the line that is used to draw the circle. [undefined -> 1]
+ * @param {Boolean} fill - If true, the rectangle is filled with the color specified by @param color, else no fill. [undefined -> true]
+ *
  */
 function SolidSquare (upperLeftX, upperLeftY, sidelength, color, linewidth, fill) {
 
