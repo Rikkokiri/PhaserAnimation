@@ -27,10 +27,15 @@ var numberOfSquares;
 var squaresOnRow;
 
 var checkeredGrid;
+var checkeredGridBlack;
+var checkeredGridWhite;
+var checkeredGridFull; // NOT YET USED?
+
 var squareRevealGoal = 0;
 
 // ------- For "pulsing" the squares ----------
 var pulseGoal;
+var shrinkGoal;
 var returnGoal;
 var expanding = true;
 
@@ -67,7 +72,16 @@ AnimationState.prototype = {
 
     // - - -  Finally... Music! - - -
     music = this.game.add.audio('sail');
-    music.play();
+    this.addMarkers();
+
+    // music.play("xxzz");
+    // animationNumber = 21;
+
+    // music.play("xxzz2");
+    // animationNumber = 24;
+
+    music.play("PA");
+    animationNumber = 26;
 
     //
     var startTime = this.game.time.now;
@@ -84,6 +98,22 @@ AnimationState.prototype = {
     centerY = this.game.height / 2;
 
   },
+
+  /**
+   * Add some markers to the audio. Mostly just for development purposes.
+   *
+   */
+  addMarkers: function() {
+
+    // addMarker(name, start, duration, volume, loop)
+
+    // Lift the background
+    music.addMarker("xxzz", 17.3, 60);
+    music.addMarker("xxzz2", 21.3, 60);
+    music.addMarker("PA", 25.3, 60);
+
+  },
+
 
   /**
    * TODO EXPLAIN
@@ -230,15 +260,11 @@ AnimationState.prototype.update = function() {
     bg.draw(this.graphics);
   }
 
-  // ------- THIS IS WHERE I LEFT OFF. THE NEXT PHASE DOESN'T WORK ------------
-
-  // ----- WAIT ------
-
-  //
+  // Bring the two rectangles from the side
   if(animationNumber == 24){
     delayCounter++;
 
-    if(delayCounter >= 210){ // ADJUST TIMING
+    if(delayCounter >= 210){
       animationNumber = 26;
       delayCounter = 0;
     }
@@ -251,7 +277,7 @@ AnimationState.prototype.update = function() {
         twoRecs[1].moveLeft(6);
       }
       else {
-        twoRecs[0].moveLeft(left); // TODO PERFECT THIS
+        twoRecs[0].moveLeft(left);
         twoRecs[1].moveLeft(left);
       }
 
@@ -268,13 +294,13 @@ AnimationState.prototype.update = function() {
   if(animationNumber == 26){
     delayCounter++;
 
-    if(delayCounter >= 210){ // TOO SHORT DELAY!
-      animationNumber = 27; //TODO Fix
+    if(delayCounter >= 72){
+      animationNumber = 27;
       delayCounter = 0;
     }
 
     if(squareRevealGoal < squareSize){
-      squareRevealMove = 1.6;
+      squareRevealMove = 1.75;
       moveRevealSquares(this.game.width, this.game.height, squareSize, squareRevealMove, revealSquareGrid)
       squareRevealGoal += squareRevealMove;
     }
@@ -287,67 +313,113 @@ AnimationState.prototype.update = function() {
   if(animationNumber == 27){
     this.game.stage.backgroundColor = "0xffffff";
     // checkeredGrid = createCheckeredHalfEmptyGrid(game.width, game.height, squaresInColumn, "0x000000", false);
-    checkeredGrid = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", false, 100, 100);
-    drawGrid(this.graphics, checkeredGrid);
+    checkeredGridBlack = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", false, 100, 100);
+    // checkeredGridWhite = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0xFFFFFF", false, 100, 100);
+    checkeredGridWhite = createCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, 0xFFFFFF, true);
 
-    pulseGoal = 1.2 * checkeredGrid[0][1].sidelength;
-    returnGoal = checkeredGrid[0][1].sidelength;
+    console.log(checkeredGridBlack);
+    console.log(checkeredGridWhite);
 
+    drawGrid(this.graphics, checkeredGridBlack);
+
+    // pulseGoal = 1.15 * checkeredGridBlack[0][1].sidelength;
+    pulseGoal = 140;
+    // shrinkGoal = 80;
+    returnGoal = checkeredGridBlack[0][1].sidelength;
+
+    delayCounter = 0;
     animationNumber = 28;
+    var time = 0;
+    var expandMove = 0;
   }
 
-  // Pulse squares
-  if(animationNumber == 28){
+  // Pulse black squares
+  if(animationNumber == 28 || animationNumber == 30){
+    delayCounter++;
 
-    if(checkeredGrid[0][1].sidelength < pulseGoal && expanding){
-      expandSquares(this.graphics, checkeredGrid, 1);
+    (animationNumber == 28) ? time = 30 : time = 60;
+    (animationNumber == 28) ? expandMove = 1 : expandMove = 3;
+
+    if(checkeredGridBlack[0][1].sidelength < pulseGoal && expanding){
+      expandSquares(this.graphics, checkeredGridBlack, expandMove);
     }
     else {
       expanding = false;
 
-      if(checkeredGrid[0][1].sidelength > returnGoal){
-        shrinkSquares(this.graphics, checkeredGrid, 1);
+      if(checkeredGridBlack[0][1].sidelength > returnGoal && delayCounter >= time / 2){
+        shrinkSquares(this.graphics, checkeredGridBlack, expandMove);
       }
-      else {
+      else if(delayCounter >= time){
         // Move on to the next animation?
-        this.game.stage.backgroundColor = "0x000000";
-        checkeredGrid = createCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0xffffff", true);
-        animationNumber = 29;
+
+        animationNumber++
+        delayCounter = 0;
+        expanding = true;
       }
     }
-    drawGrid(this.graphics, checkeredGrid);
+    this.game.stage.backgroundColor = "0xffffff";
+    drawGrid(this.graphics, checkeredGridBlack);
   }
 
-
-  // Spin squares
+  // Pulse white squares
   if(animationNumber == 29){
+    delayCounter++;
 
-    spinSquaresTwoDirections(this.graphics, checkeredGrid, -1 * rotationAngle);
-
-    if(rotationSum < 179){
-      rotationSum += Math.abs(rotationAngle);
+    if(checkeredGridWhite[0][0].sidelength < pulseGoal && expanding){
+      expandSquares(this.graphics, checkeredGridWhite, 1);
     }
     else {
-        checkeredGrid = createCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", false);
-        this.game.stage.backgroundColor = 0xffffff;
-        rotationSum = 0;
+      expanding = false;
+
+      if(checkeredGridWhite[0][0].sidelength > returnGoal && delayCounter >= 30){
+        shrinkSquares(this.graphics, checkeredGridWhite, 1);
+      }
+      else if(delayCounter >= 60){
+        // Move on to the next animation?
         animationNumber = 30;
+        delayCounter = 0;
+        expanding = true;
+        pulseGoal = 163;
+      }
     }
+    this.game.stage.backgroundColor = "0x000000";
+    drawGrid(this.graphics, checkeredGridWhite);
+  }
 
+  if(animationNumber == 31){
+    this.game.stage.backgroundColor = "0xffffff";
+    drawGrid(this.graphics, checkeredGridBlack);
 
   }
 
-  if(animationNumber == 30){
-
-    if(rotationSum < 120){
-      spinSquaresTwoDirections(this.graphics, checkeredGrid, rotationAngle);
-      // spinSquaresSameDirection(graphics, checkeredGrid, rotationAngle);
-      rotationSum += Math.abs(rotationAngle);
-    }
-    else {
-      drawGrid(this.graphics, checkeredGrid);
-    }
-  }
+  // // Spin squares
+  // if(animationNumber == 29){
+  //
+  //   spinSquaresTwoDirections(this.graphics, checkeredGrid, -1 * rotationAngle);
+  //
+  //   if(rotationSum < 179){
+  //     rotationSum += Math.abs(rotationAngle);
+  //   }
+  //   else {
+  //       checkeredGrid = createCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", false);
+  //       this.game.stage.backgroundColor = 0xffffff;
+  //       rotationSum = 0;
+  //       animationNumber = 30;
+  //   }
+  //
+  // }
+  //
+  // if(animationNumber == 30){
+  //
+  //   if(rotationSum < 120){
+  //     spinSquaresTwoDirections(this.graphics, checkeredGrid, rotationAngle);
+  //     // spinSquaresSameDirection(graphics, checkeredGrid, rotationAngle);
+  //     rotationSum += Math.abs(rotationAngle);
+  //   }
+  //   else {
+  //     drawGrid(this.graphics, checkeredGrid);
+  //   }
+  // }
 
 }
 

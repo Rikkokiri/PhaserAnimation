@@ -22,7 +22,6 @@ LoadState.prototype = {
     // Firefox doesn't support mp3 files, so use ogg
     this.game.load.audio('sail', 'resources/sail.ogg');
 
-
   },
 
   /*
@@ -37,5 +36,6 @@ LoadState.prototype = {
       this.game.state.start('ready');
     }
 
-  }
+  },
+
 };
