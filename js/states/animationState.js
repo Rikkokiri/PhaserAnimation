@@ -27,7 +27,6 @@ var numberOfSquares;
 var squaresOnRow;
 
 var checkeredGrid;
-var squareRevealMove = 5;
 var squareRevealGoal = 0;
 
 // ------- For "pulsing" the squares ----------
@@ -132,7 +131,7 @@ AnimationState.prototype.update = function() {
   if(animationNumber == 1){
     delayCounter++;
 
-    if(delayCounter >= 36){
+    if(delayCounter >= 30){
       animationNumber = 2;
       delayCounter = 0;
     }
@@ -218,7 +217,14 @@ AnimationState.prototype.update = function() {
     }
 
     if(bg.getPoint(0).y > centerY){
-      bg.moveUp(5);
+      var left = bg.getPoint(0).y - centerY;
+
+      if(left >= 4.5){
+          bg.moveUp(4.5);
+      }
+      else {
+        bg.moveUp(left);
+      }
     }
 
     bg.draw(this.graphics);
@@ -232,14 +238,23 @@ AnimationState.prototype.update = function() {
   if(animationNumber == 24){
     delayCounter++;
 
-    if(delayCounter >= 246){ // ADJUST TIMING
-      animationNumber = 25;
+    if(delayCounter >= 210){ // ADJUST TIMING
+      animationNumber = 26;
       delayCounter = 0;
     }
 
     if(twoRecs[0].getPoint(0).x > centerX){
-      twoRecs[0].moveLeft(5);
-      twoRecs[1].moveLeft(5);
+      var left =twoRecs[0].getPoint(0).x - centerX;
+
+      if(left >= 6){
+        twoRecs[0].moveLeft(6);
+        twoRecs[1].moveLeft(6);
+      }
+      else {
+        twoRecs[0].moveLeft(left); // TODO PERFECT THIS
+        twoRecs[1].moveLeft(left);
+      }
+
     }
 
     bg.draw(this.graphics);
@@ -247,36 +262,21 @@ AnimationState.prototype.update = function() {
     twoRecs[1].draw(this.graphics);
   }
 
-  // ----- WAIT ------
-
-  // Go from two recntangles to four recntangles
-  if(animationNumber == 25){
-    bg.draw(this.graphics);
-    twoRecs[0].draw(this.graphics);
-    twoRecs[1].draw(this.graphics);
-
-    delayCounter++;
-
-    if(delayCounter >= 20){
-      animationNumber = 26;
-      delayCounter = 0;
-    }
-  }
 
   // ----- WAIT ------
 
   if(animationNumber == 26){
+    delayCounter++;
+
+    if(delayCounter >= 210){ // TOO SHORT DELAY!
+      animationNumber = 27; //TODO Fix
+      delayCounter = 0;
+    }
+
     if(squareRevealGoal < squareSize){
+      squareRevealMove = 1.6;
       moveRevealSquares(this.game.width, this.game.height, squareSize, squareRevealMove, revealSquareGrid)
       squareRevealGoal += squareRevealMove;
-    }
-    else {
-      delayCounter++;
-
-      if(delayCounter >= 20){
-        animationNumber = 27; //TODO Fix
-        delayCounter = 0;
-      }
     }
 
     drawGrid(this.graphics, checkeredGrid);
