@@ -41,20 +41,27 @@ function create() {
 
 
 
-  sqr = new SolidSquare(100, 100, 100);
+  sqr = new Square(100, 100, 100);
 
-  for(var i = 0; i < 30; i++){
-    sqr.shrink(2.5);
-  }
+  sqr.shrink(10);
+  sqr.rotateAroundCenter(10);
+
+  var width = Phaser.Point.distance(sqr.getPoint(0), sqr.getPoint(1), false);
+  console.log("width", width)
+
+  // for(var i = 0; i < 30; i++){
+  //   sqr.shrink(2.5);
+  // }
 
   console.log(sqr.sidelength);
+  console.log(sqr);
 
   sqr.centerOn(centerX, centerY);
   sqr.setColor(0x000ccc);
-
-  for(var i = 0; i < 4; i++){
-    console.log(rec.getPoint(i));
-  }
+  //
+  // for(var i = 0; i < 4; i++){
+  //   console.log(rec.getPoint(i));
+  // }
 
 
   rec.draw(graphics);
