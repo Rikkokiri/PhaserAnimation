@@ -59,11 +59,9 @@ AnimationState.prototype = {
     this.createEssentials();
 
 
-    introSquare = new SolidSquare(0, 0, 50, "0xffffff");
+    introSquare = new Square(0, 0, 50, "0xffffff");
     introSquare.centerOn(centerX, centerY);
 
-    // Prepare background etc. for the squareslide animation
-    // prepareSquareSlideAnimation(this.game.width, this.game.height);
 
     // For square reveal
 
@@ -83,12 +81,9 @@ AnimationState.prototype = {
     // music.play("xxzz2");
     // animationNumber = 24;
 
-    // music.play("PA");
-    // animationNumber = 26;
-    music.play();
-
-    //
-    var startTime = this.game.time.now;
+    music.play("PA");
+    animationNumber = 26;
+    // music.play();
 
   },
 
@@ -111,10 +106,10 @@ AnimationState.prototype = {
 
     // addMarker(name, start, duration, volume, loop)
 
-    // // Lift the background
-    // music.addMarker("xxzz", 17.3, 60);
-    // music.addMarker("xxzz2", 21.3, 60);
-    // music.addMarker("PA", 25.3, 60);
+    // Lift the background
+    music.addMarker("xxzz", 17.3, 60);
+    music.addMarker("xxzz2", 21.3, 60);
+    music.addMarker("PA", 25.3, 60);
 
   },
 
@@ -393,7 +388,7 @@ AnimationState.prototype.update = function() {
   if(animationNumber == 31){
     state30visited += 1;
 
-    if(state30visited < 2){
+    if(state30visited < 3){
       animationNumber = 32;
     }
     else {
@@ -435,16 +430,53 @@ AnimationState.prototype.update = function() {
       rotationSum += Math.abs(rotationAngle);
     }
     else {
-      rotationSum = 0;
-      // checkeredGridBlack = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", false, 100, 100);
       checkeredGrid = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0xffffff", true, 100, 100);
+
+      rotationSum = 0;
+      delayCounter = 0;
       animationNumber = 35;
     }
   }
 
-  // Spin squares
   if(animationNumber == 35){
-     console.log("STATE 35");
+    console.log("STATE 35");
+    delayCounter++;
+
+    if(delayCounter <= 1){
+      spinSquaresTwoDirections(this.graphics, checkeredGrid, 45);
+      this.game.stage.backgroundColor = "0x000000";
+    }
+
+    drawGrid(this.graphics, checkeredGrid);
+
+    if(delayCounter >= 60){
+      delayCounter = 0;
+      checkeredGrid = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", true, 100, 100);
+      animationNumber = 36;
+    }
+  }
+
+  if(animationNumber == 36){
+    console.log("STATE 36");
+    delayCounter++;
+
+    if(delayCounter <= 1){
+      spinSquaresTwoDirections(this.graphics, checkeredGrid, 45);
+      this.game.stage.backgroundColor = "0xffffff";
+    }
+
+    drawGrid(this.graphics, checkeredGrid);
+
+    if(delayCounter >= 60){
+      delayCounter = 0;
+      checkeredGrid = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0xffffff", true, 100, 100);
+      animationNumber = 37;
+    }
+  }
+
+  // Spin squares
+  if(animationNumber == 37){
+     console.log("STATE 37");
     this.game.stage.backgroundColor = "0x000000";
 
     drawGrid(this.graphics, checkeredGridWhite);
@@ -457,13 +489,14 @@ AnimationState.prototype.update = function() {
     else {
         rotationSum = 0;
         delayCounter = 0;
-        animationNumber = 36;
+        animationNumber = 38;
     }
   }
 
-  if(animationNumber == 36){
+  if(animationNumber == 38){
     drawGrid(this.graphics, checkeredGrid);
   }
+
 
   // if(animationNumber == 34){
   //   delayCounter++;
