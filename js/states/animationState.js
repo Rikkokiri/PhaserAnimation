@@ -314,8 +314,8 @@ AnimationState.prototype.update = function() {
     this.game.stage.backgroundColor = "0xffffff";
     // checkeredGrid = createCheckeredHalfEmptyGrid(game.width, game.height, squaresInColumn, "0x000000", false);
     checkeredGridBlack = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", false, 100, 100);
-    // checkeredGridWhite = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0xFFFFFF", false, 100, 100);
-    checkeredGridWhite = createCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, 0xFFFFFF, true);
+    checkeredGridWhite = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0xFFFFFF", false, 100, 100);
+    // checkeredGridWhite = createCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, 0xFFFFFF, true);
 
     console.log(checkeredGridBlack);
     console.log(checkeredGridWhite);
@@ -323,7 +323,7 @@ AnimationState.prototype.update = function() {
     drawGrid(this.graphics, checkeredGridBlack);
 
     // pulseGoal = 1.15 * checkeredGridBlack[0][1].sidelength;
-    pulseGoal = 140;
+    pulseGoal = 142.4;
     // shrinkGoal = 80;
     returnGoal = checkeredGridBlack[0][1].sidelength;
 
@@ -338,7 +338,7 @@ AnimationState.prototype.update = function() {
     delayCounter++;
 
     (animationNumber == 28) ? time = 30 : time = 60;
-    (animationNumber == 28) ? expandMove = 1 : expandMove = 3;
+    (animationNumber == 28) ? expandMove = 1 : expandMove = 2.5;
 
     if(checkeredGridBlack[0][1].sidelength < pulseGoal && expanding){
       expandSquares(this.graphics, checkeredGridBlack, expandMove);
@@ -376,10 +376,11 @@ AnimationState.prototype.update = function() {
       }
       else if(delayCounter >= 60){
         // Move on to the next animation?
-        animationNumber = 30;
+        // animationNumber = 30;
+        animationNumber++;
         delayCounter = 0;
         expanding = true;
-        pulseGoal = 163;
+        pulseGoal = 153.033;
       }
     }
     this.game.stage.backgroundColor = "0x000000";
@@ -387,39 +388,41 @@ AnimationState.prototype.update = function() {
   }
 
   if(animationNumber == 31){
-    this.game.stage.backgroundColor = "0xffffff";
-    drawGrid(this.graphics, checkeredGridBlack);
 
   }
 
-  // // Spin squares
-  // if(animationNumber == 29){
-  //
-  //   spinSquaresTwoDirections(this.graphics, checkeredGrid, -1 * rotationAngle);
-  //
-  //   if(rotationSum < 179){
-  //     rotationSum += Math.abs(rotationAngle);
-  //   }
-  //   else {
-  //       checkeredGrid = createCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", false);
-  //       this.game.stage.backgroundColor = 0xffffff;
-  //       rotationSum = 0;
-  //       animationNumber = 30;
-  //   }
-  //
-  // }
-  //
-  // if(animationNumber == 30){
-  //
-  //   if(rotationSum < 120){
-  //     spinSquaresTwoDirections(this.graphics, checkeredGrid, rotationAngle);
-  //     // spinSquaresSameDirection(graphics, checkeredGrid, rotationAngle);
-  //     rotationSum += Math.abs(rotationAngle);
-  //   }
-  //   else {
-  //     drawGrid(this.graphics, checkeredGrid);
-  //   }
-  // }
+  // Spin squares
+  if(animationNumber == 31){
+    this.game.stage.backgroundColor = "0xffffff";
+    drawGrid(this.graphics, checkeredGridBlack);
+
+
+    spinSquaresTwoDirections(this.graphics, checkeredGrid, -1 * rotationAngle);
+
+    if(rotationSum < 179){
+      rotationSum += Math.abs(rotationAngle);
+    }
+    else {
+        checkeredGrid = createCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", false);
+        // this.game.stage.backgroundColor = 0xffffff;
+        rotationSum = 0;
+        animationNumber = 30;
+    }
+
+  }
+
+  if(animationNumber == 32){
+    console.log("Animation 32!");
+
+    if(rotationSum < 120){
+      spinSquaresTwoDirections(this.graphics, checkeredGrid, rotationAngle);
+      // spinSquaresSameDirection(graphics, checkeredGrid, rotationAngle);
+      rotationSum += Math.abs(rotationAngle);
+    }
+    else {
+      drawGrid(this.graphics, checkeredGrid);
+    }
+  }
 
 }
 
