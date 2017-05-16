@@ -15,13 +15,11 @@ var animationNumber = 0;
 var delayCounter = 0;
 var delayNeeded = true;
 
-
-var twoSquares = [];
-
 // ------- For sliding squares ----------
-var background;
+var bg;
+var twoRecs; // This will be an array
 
-// ------- For square reveal ----------
+// ------- For square reveal part of sliding squares ----------
 var revealSquareGrid;
 var squaresInColumn = 6;
 var squareSize;
@@ -68,10 +66,6 @@ AnimationState.prototype = {
     // Create the checkered 6 x 8 square grid
     checkeredGrid = createCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0xffffff", true);
 
-
-
-    prepareSquareSlideAnimation(this.game.width, this.game.height, this.graphics);
-
     // - - -  Finally... Music! - - -
     music = this.game.add.audio('sail');
     music.play();
@@ -81,11 +75,35 @@ AnimationState.prototype = {
 
   },
 
+  /**
+   * Define some essential variables and create the graphics object
+   */
   createEssentials: function() {
 
     this.graphics = this.game.add.graphics(0,0);
     centerX = this.game.width / 2;
     centerY = this.game.height / 2;
+
+  },
+
+  /**
+   * TODO EXPLAIN
+   */
+  prepareSlideAnimation: function() {
+
+    // function Rec (upperLeftX, upperLeftY, height, width, color, linewidth, fill)
+    bg = new Rec(0, this.game.height, this.game.height, this.game.width, 0xFFFFFF, 0, true);
+
+    // Two rectangles that will slide from the side
+    twoRecs = [];
+
+    // Upper rectangle
+    twoRecs[0] = new Rec(this.game.width, 0, (this.game.height / 2), this.game.width, 0xffffff, 0, true);
+
+    // Lower rectangle
+    twoRecs[1] = new Rec(this.game.width, (this.game.height / 2), (this.game.height / 2), this.game.width, 0x000000, 0, true);
+
+
 
   }
 
@@ -182,11 +200,9 @@ AnimationState.prototype.update = function() {
 
   // ---------- START SEQUENCE FROM ANIMATION NUMBER 22 ----------
 
-  //Prepare for "lifting" the background
+  //Prepare for square slide animation
   if(animationNumber == 21){
-    //SolidSquare (upperLeftX, upperLeftY, sidelength, color, linewidth, fill) {
-    background = new SolidSquare(0, this.game.height, this.game.width, 0xffffff, 0, true);
-
+    this.prepareSlideAnimation();
     animationNumber = 22;
   }
 
@@ -197,46 +213,47 @@ AnimationState.prototype.update = function() {
     delayCounter++;
 
     if(delayCounter >= 246){
-      animationNumber = 23;
+      animationNumber = 24;
       delayCounter = 0;
     }
 
-    if(background.square.points[0].y > centerY){
-      background.moveUp(10);
+    if(bg.getPoint(0).y > centerY){
+      bg.moveUp(5);
     }
 
-    background.draw(this.graphics);
+    bg.draw(this.graphics);
   }
 
   // ------- THIS IS WHERE I LEFT OFF. THE NEXT PHASE DOESN'T WORK ------------
 
   // ----- WAIT ------
 
-  // Create two
-  if(animationNumber == 23){
-    background.draw(this.graphics);
-    createTwoSquares(this.game.width/2);
-    animationNumber = 24;
-    // TODO Apply delay?
-  }
-
   //
   if(animationNumber == 24){
-    background.draw(this.graphics);
+    delayCounter++;
 
-    if(twoSquaresSlidingFromTheRight(centerX, 10)){
-        animationNumber = 25;
-        delayCounter = 0;
+    if(delayCounter >= 246){ // ADJUST TIMING
+      animationNumber = 25;
+      delayCounter = 0;
     }
+
+    if(twoRecs[0].getPoint(0).x > centerX){
+      twoRecs[0].moveLeft(5);
+      twoRecs[1].moveLeft(5);
+    }
+
+    bg.draw(this.graphics);
+    twoRecs[0].draw(this.graphics);
+    twoRecs[1].draw(this.graphics);
   }
 
   // ----- WAIT ------
 
   // Go from two recntangles to four recntangles
   if(animationNumber == 25){
-    background.draw(this.graphics);
-    drawPolygonShape(twoSquares[0], "0x000000");
-    drawPolygonShape(twoSquares[1], "0xffffff");
+    bg.draw(this.graphics);
+    twoRecs[0].draw(this.graphics);
+    twoRecs[1].draw(this.graphics);
 
     delayCounter++;
 
