@@ -7,6 +7,7 @@
   <script src="../js/phaser.min.js"></script>
   <script src="../js/shapes/Rec.js"></script>
   <script src="../js/shapes/Square.js"></script>
+  <script src="../js/shapes/SolidSquare.js"></script>
 
   <style type="text/css">
 
@@ -40,7 +41,13 @@ function create() {
 
 
 
-  sqr = new Square(100, 100, 50);
+  sqr = new SolidSquare(100, 100, 100);
+
+  for(var i = 0; i < 15; i++){
+    sqr.expand(3);
+  }
+
+  console.log(sqr.sidelength);
 
   sqr.centerOn(centerX, centerY);
   sqr.setColor(0x000ccc);
