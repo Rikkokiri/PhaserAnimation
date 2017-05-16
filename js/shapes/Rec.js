@@ -213,7 +213,9 @@ Rec.prototype = {
            this.rec.points[point].rotate(this.center.x, this.center.y, 0, true, this.cornerDistance);
          }
 
-         this.sidelength = Math.sqrt(2 * Math.pow(this.cornerDistance, 2));
+         // Update width and height
+         var width = Phaser.Point.distance(rec.getPoint(0), rec.getPoint(1), false);
+         var height = Phaser.Point.distance(rec.getPoint(1), rec.getPoint(2), false);
 
        }
    },
@@ -231,9 +233,15 @@ Rec.prototype = {
        this.rec.points[point].rotate(this.center.x, this.center.y, 0, true, this.cornerDistance);
      }
 
-     this.sidelength = Math.sqrt(2 * Math.pow(this.cornerDistance, 2));
+     // Update width and height
+     var width = Phaser.Point.distance(rec.getPoint(0), rec.getPoint(1), false);
+     var height = Phaser.Point.distance(rec.getPoint(1), rec.getPoint(2), false);
+
    }
 
-
+   /*
+    * TODO Methods for strecthing the rectangle?
+    *
+    */
 
 }
