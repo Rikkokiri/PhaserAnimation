@@ -22,7 +22,7 @@ function RoundedSquare (upperLeftX, upperLeftY, sidelength, cornerradius, color,
   if (sidelength === undefined){ sidelength = 0; }
   if (cornerradius === undefined){ cornerradius = 50; }
   if (color === undefined){ color = 0xff0000; }
-  if (linewidth === undefined) { linewidth = 1; }
+  if (linewidth === unde fined) { linewidth = 1; }
   if (fill === undefined) { fill = true; }
 
   // TODO Remove?
@@ -61,7 +61,20 @@ RoundedSquare.prototype = {
       graphics.drawShape(this.square);
     }
 
-  }
+  },
+
+  /**
+   * TODO COMMENT
+   *
+   * @param {Number} radius -
+   */
+  setRadius: function(radius){
+    this.cornerradius = radius;
+  },
+
+  // TODO METHODS FOR INCREASING AND DECREASING THE CORNERRADIUS
+
+  
 
   /*
    * TODO Method's for moving the shape

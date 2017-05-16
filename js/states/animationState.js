@@ -1,5 +1,5 @@
 /**
-*
+* @author Rikkokiri
 */
 
 function AnimationState() {}
@@ -73,7 +73,7 @@ AnimationState.prototype = {
 
     // - - -  Finally... Music! - - -
     music = this.game.add.audio('sail');
-    this.addMarkers();
+    // this.addMarkers();
 
     // music.play("xxzz");
     // animationNumber = 21;
@@ -81,9 +81,9 @@ AnimationState.prototype = {
     // music.play("xxzz2");
     // animationNumber = 24;
 
-    music.play("PA");
-    animationNumber = 26;
-    // music.play();
+    // music.play("PA");
+    // animationNumber = 26;
+    music.play();
 
   },
 
@@ -109,7 +109,7 @@ AnimationState.prototype = {
     // Lift the background
     music.addMarker("xxzz", 17.3, 60);
     music.addMarker("xxzz2", 21.3, 60);
-    music.addMarker("PA", 25.3, 60);
+    music.addMarker("PA", 25.3, 120);
 
   },
 
@@ -449,7 +449,7 @@ AnimationState.prototype.update = function() {
 
     drawGrid(this.graphics, checkeredGrid);
 
-    if(delayCounter >= 60){
+    if(delayCounter >= 30){
       delayCounter = 0;
       checkeredGrid = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", true, 100, 100);
       animationNumber = 36;
@@ -467,7 +467,7 @@ AnimationState.prototype.update = function() {
 
     drawGrid(this.graphics, checkeredGrid);
 
-    if(delayCounter >= 60){
+    if(delayCounter >= 30){
       delayCounter = 0;
       checkeredGrid = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0xffffff", true, 100, 100);
       animationNumber = 37;
@@ -490,37 +490,44 @@ AnimationState.prototype.update = function() {
         rotationSum = 0;
         delayCounter = 0;
         animationNumber = 38;
+        this.game.stage.backgroundColor = "0x000000";
+        checkeredGrid = createCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0xffffff", true);
     }
   }
 
   if(animationNumber == 38){
+    console.log("STATE 38");
+    delayCounter++;
+
+    drawGrid(this.graphics, checkeredGrid);
+
+    if(delayCounter >= 30){
+      delayCounter = 0;
+      this.game.stage.backgroundColor = "0xffffff";
+      checkeredGrid = createCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", true);
+      animationNumber = 39;
+    }
+  }
+
+  if(animationNumber == 39){
+    console.log("STATE 39");
+    delayCounter++;
+
+    drawGrid(this.graphics, checkeredGrid);
+
+    if(delayCounter >= 30){
+      delayCounter = 0;
+      this.game.stage.backgroundColor = "0x000000";
+      checkeredGrid = createCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0xffffff", true);
+      animationNumber = 40;
+    }
+  }
+
+  if(animationNumber == 40){
+    console.log("STATE 40");
     drawGrid(this.graphics, checkeredGrid);
   }
 
-
-  // if(animationNumber == 34){
-  //   delayCounter++;
-  //   expandMove = 2.5;
-  //
-  //   if(checkeredGridWhite[0][1].sidelength < pulseGoal && expanding){
-  //     expandSquares(this.graphics, checkeredGridWhite, expandMove);
-  //   }
-  //   else {
-  //     expanding = false;
-  //
-  //     if(checkeredGridBlack[0][1].sidelength > returnGoal && delayCounter >= 30){
-  //       shrinkSquares(this.graphics, checkeredGridWhite, expandMove);
-  //     }
-  //     else if(delayCounter >= time){
-  //       // Move on to the next animation?
-  //       animationNumber = 33;
-  //       delayCounter = 0;
-  //       expanding = true;
-  //     }
-  //   }
-  //   this.game.stage.backgroundColor = "0x000000";
-  //   drawGrid(this.graphics, checkeredGridWhite);
-  // }
 
 }
 
