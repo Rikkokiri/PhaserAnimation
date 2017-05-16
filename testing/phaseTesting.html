@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Phaser - Testing Square</title>
+
+  <script src="../js/phaser.min.js"></script>
+  <script src="../js/shapes/Rec.js"></script>
+  <script src="../js/shapes/Square.js"></script>
+
+  <style type="text/css">
+
+    body {
+      margin: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { create: create, update: update });
+
+var centerX = game.width / 2;
+var centerY = game.height / 2;
+var graphics;
+
+var animationNumber = 21;
+var delayCounter = 0;
+
+
+var twoRecs;
+var bg;
+
+
+function create() {
+
+  graphics = game.add.graphics(0,0);
+  prepareSlideAnimation();
+
+}
+
+function update(){
+
+  twoRecs[0].draw(graphics);
+  twoRecs[1].draw(graphics);
+
+  // if(animationNumber == 21){
+  //   prepareSlideAnimation();
+  //   animationNumber = 22;
+  // }
+  //
+  // if(animationNumber == 22){
+  //   delayCounter++;
+  //
+  //   if(delayCounter >= 100){
+  //     animationNumber = 24;
+  //     delayCounter = 0;
+  //   }
+  //
+  //   if(bg.getPoint(0).y > centerY){
+  //     bg.moveUp(10);
+  //   }
+  //
+  //   bg.draw(graphics);
+  // }
+  //
+  // if(animationNumber == 24){
+  //   bg.draw(graphics);
+  //
+  //   if(twoRecs[0].getPoint(0).x > centerX){
+  //     twoRecs[0].moveLeft(10);
+  //     twoRecs[1].moveLeft(10);
+  //
+  //     // console.log(twoRecs);
+  //   }
+  //   else {
+  //     animationNumber = 25;
+  //     delayCounter = 0;
+  //   }
+  //
+  //   twoRecs[0].draw(graphics);
+  //   twoRecs[1].draw(graphics);
+  // }
+
+
+}
+
+function prepareSlideAnimation() {
+
+  // function Rec (upperLeftX, upperLeftY, height, width, color, linewidth, fill)
+  bg = new Rec(0, game.height, game.height, game.width, 0xFFFFFF, 0, true);
+
+  // Two rectangles that will slide from the side
+  twoRecs = [];
+
+  // Upper rectangle
+  // twoRecs[0] = new Rec(game.width, 0, (game.height / 2), game.width, 0xff0000, 0, true);
+  twoRecs[0] = new Rec(0, 0, (game.height / 2), game.width, 0xff0000, 0, true);
+
+  // Lower rectangle
+  // twoRecs[1] = new Rec(game.width, (game.heigth / 2), (game.height / 2), game.width, 0xfff000, 0, true);
+  twoRecs[1] = new Rec(0, (game.height / 2), (game.height / 2), game.width, 0xfff000, 0, true);
+
+  console.log(twoRecs);
+
+}
+
+</script>
+
+</body>
+</html>
