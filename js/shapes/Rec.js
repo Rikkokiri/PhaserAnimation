@@ -71,6 +71,20 @@ Rec.prototype = {
       }
     },
 
+    /**
+     * Get the point of a square specified by a given number.
+     * The numbering starts from 0, from what originally was the upper left corner and moves clockwise from there.
+     *
+     * @param {Number} pointNumber [0-3] - The number of the requested point of the rectangle
+     * @return {Phaser.Point}
+     */
+    getPoint: function(pointNumber){
+
+      // TODO Throw an exception if the pointNumber isn't between 0-3?
+
+      return this.rec.points[pointNumber];
+    },
+
     // ------- Spin that shit! -------
 
    /**
