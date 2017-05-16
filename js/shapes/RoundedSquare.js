@@ -66,6 +66,130 @@ RoundedSquare.prototype = {
   /*
    * TODO Method's for moving the shape
    */
+   // ------- METHODS FOR MOVING THE rectangle --------------
+
+   /**
+    * Move up
+    * @param {Number} distance - How many pixels the rectangle is moved upwards
+    */
+   moveUp: function(distance){
+     for(var point = 0; point < 4; point++){
+       this.rec.points[point].y -= distance;
+     }
+    // Update center
+    this.center.y -= distance;
+   },
+
+   /**
+    * Move down
+    * @param {Number} distance - How many pixels the rectangle is moved downwards
+    */
+   moveDown: function(distance){
+     this.moveUp(-distance);
+   },
+
+   /**
+    * Move left
+    * @param {Number} distance - How many pixels the rectangle is moved left
+    */
+   moveLeft: function(distance){
+     for(var point = 0; point < 4; point++){
+       this.rec.points[point].x -= distance;
+     }
+     // Update center
+     this.center.x -= distance;
+   },
+
+   /**
+    * Move right
+    * @param {Number} distance - How many pixels the rectangle is moved right
+    */
+   moveRight: function(distance){
+     this.moveLeft(-distance);
+   },
+
+   // TODO Other directions?
+
+   /**
+    * Move the rectangle so that it's center is on the given coordinates
+    * @param {}
+    */
+    centerOn: function(x, y){
+
+      // Calculate the change in the coordinates
+      moveX = x - this.center.x;
+      moveY = y - this.center.y;
+
+      // Update the center coordinates
+      this.center.setTo(x, y);
+
+      // Update the corner coordinates
+      for( var point = 0; point < 4; point++ ){
+        this.rec.points[point].x += moveX;
+        this.rec.points[point].y += moveY;
+      }
+
+    },
+
+   // ------- Change color? --------------
+
+   // TODO Check color code validity?
+   setColor: function(newColor){
+     this.color = newColor;
+   },
+
+   /**
+    * TODO DOCUMENTATION
+    * @param {Boolean} fill - True, rectangle is
+    */
+   setFill(fill){
+     if(fill !== undefined){
+        this.fill = fill;
+     }
+   },
+
+   // ------- Shrink and expand rectangle --------------
+
+   // TODO
+
+   /**
+    * Move the corners of the rectangle towards its center point by the given amount
+    * and hence the rectangle shrinks.
+    *
+    * The shrinking stops when the lenght of the rectangle's side drops below zero.
+    *
+    * @param {Number} amount - How much rectangle's corners are moved towards its center point.
+    */
+   shrink: function(amount){
+
+       if(this.cornerDistance >= 0){
+
+         this.cornerDistance -= amount;
+
+         for( var point = 0; point < 4; point++ ){
+           this.rec.points[point].rotate(this.center.x, this.center.y, 0, true, this.cornerDistance);
+         }
+
+         this.sidelength = Math.sqrt(2 * Math.pow(this.cornerDistance, 2));
+
+       }
+   },
+
+   /**
+    * Move the corners of the rectangle away from its center point by the given amount and hence
+    * the rectangle expands.
+    *
+    * @param {Number} amount - How much rectangle's corners are moved away from its center point.
+    */
+   expand: function(amount){
+     this.cornerDistance += amount;
+
+     for( var point = 0; point < 4; point++ ){
+       this.rec.points[point].rotate(this.center.x, this.center.y, 0, true, this.cornerDistance);
+     }
+
+     this.sidelength = Math.sqrt(2 * Math.pow(this.cornerDistance, 2));
+   }
 
 
 
