@@ -38,8 +38,19 @@ function create() {
   rec.centerOn(centerX, centerY);
   // rec.setFill(false);
 
-  sqr = new Square(300, 300, 50);
 
+
+  sqr = new Square(100, 100, 50);
+
+  sqr.centerOn(centerX, centerY);
+  sqr.setColor(0x000ccc);
+
+  for(var i = 0; i < 4; i++){
+    console.log(rec.getPoint(i));
+  }
+
+
+  rec.draw(graphics);
 
   sqr.draw(graphics);
 
@@ -47,20 +58,21 @@ function create() {
 
 function update(){
 
-  graphics.clear();
-
-  // rec.draw(graphics);
-  sqr.draw(graphics);
-
-  // rec.rotateAroundCenter(1);
-  // rec.moveUp(1);
-  // rec.moveDown(1);
-  // rec.moveLeft(1);
-  // rec.moveRight(1);
-  sqr.setColor(0xfff000);
-  sqr.setFill(false);
-
-  sqr.rotateAroundCenter(1);
+  // // graphics.clear();
+  //
+  // // rec.draw(graphics);
+  // sqr.draw(graphics);
+  // rec.
+  //
+  // // rec.rotateAroundCenter(1);
+  // // rec.moveUp(1);
+  // // rec.moveDown(1);
+  // // rec.moveLeft(1);
+  // // rec.moveRight(1);
+  // sqr.setColor(0xfff000);
+  // sqr.setFill(false);
+  //
+  // sqr.rotateAroundCenter(1);
 
 }
 
