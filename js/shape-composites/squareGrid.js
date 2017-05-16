@@ -62,11 +62,11 @@ function createFullCheckeredGrid(gameWidth, gameHeight, squaresInColumn, color1,
 
       // Determine the color of the square
       if(cell % 2 == 0){
-        // function SolidSquare (upperLeftX, upperLeftY, sidelength, color) {
-        grid[row][cell] = new SolidSquare(x, y, squareSize, firstColor);
+        // function Square (upperLeftX, upperLeftY, sidelength, color) {
+        grid[row][cell] = new Square(x, y, squareSize, firstColor);
       }
       else {
-        grid[row][cell] = new SolidSquare(x, y, squareSize, secondColor);
+        grid[row][cell] = new Square(x, y, squareSize, secondColor);
       }
     }
   }
@@ -102,20 +102,20 @@ function createCheckeredHalfEmptyGrid(gameWidth, gameHeight, squaresInColumn, co
       // Rows starting with a square
       for(var x = 0; x <= gameWidth-squareSize; x += 2 * squareSize){
         if(startsFromCorner){
-          grid[row].push(new SolidSquare(x, y, squareSize, color));
+          grid[row].push(new Square(x, y, squareSize, color));
         }
         else {
-          grid[row + 1].push(new SolidSquare(x, y + squareSize, squareSize, color));
+          grid[row + 1].push(new Square(x, y + squareSize, squareSize, color));
         }
       }
 
       // Rows starting with an empty space
       for(var x = squareSize; x <= gameWidth - squareSize; x += 2 * squareSize) {
         if(startsFromCorner){
-          grid[row + 1].push(new SolidSquare(x, y + squareSize, squareSize, color));
+          grid[row + 1].push(new Square(x, y + squareSize, squareSize, color));
         }
         else {
-          grid[row].push(new SolidSquare(x, y, squareSize, color));
+          grid[row].push(new Square(x, y, squareSize, color));
         }
       }
 
@@ -177,11 +177,11 @@ function createOverflowingFullCheckeredGrid(gameWidth, gameHeight, squaresInColu
 
       // Determine the color of the square
       if(cell % 2 == 0){
-        // function SolidSquare (upperLeftX, upperLeftY, sidelength, color) {
-        grid[row][cell] = new SolidSquare(x, y, squareSize, firstColor);
+        // function Square (upperLeftX, upperLeftY, sidelength, color) {
+        grid[row][cell] = new Square(x, y, squareSize, firstColor);
       }
       else {
-        grid[row][cell] = new SolidSquare(x, y, squareSize, secondColor);
+        grid[row][cell] = new Square(x, y, squareSize, secondColor);
       }
     }
 
@@ -216,20 +216,20 @@ function createOverflowingCheckeredHalfEmptyGrid(gameWidth, gameHeight, squaresI
         // Rows starting with a square
         for(var x = 0 - overflowX; x <= gameWidth - squareSize + overflowX; x += 2 * squareSize) {
             if(startsFromCorner){
-              grid[row].push(new SolidSquare(x, y, squareSize, color));
+              grid[row].push(new Square(x, y, squareSize, color));
             }
             else {
-              grid[row + 1].push(new SolidSquare(x, y + squareSize, squareSize, color));
+              grid[row + 1].push(new Square(x, y + squareSize, squareSize, color));
             }
         }
 
         // Rows starting with an empty space
         for(var x = squareSize - overflowX; x <= gameWidth - squareSize + overflowX; x += 2 * squareSize) {
             if(startsFromCorner) {
-              grid[row + 1].push(new SolidSquare(x, y + squareSize, squareSize, color));
+              grid[row + 1].push(new Square(x, y + squareSize, squareSize, color));
             }
             else {
-              grid[row].push(new SolidSquare(x, y, squareSize, color));
+              grid[row].push(new Square(x, y, squareSize, color));
             }
         }
     }
