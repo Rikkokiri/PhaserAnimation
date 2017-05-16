@@ -39,7 +39,7 @@ function createRevealSquares(gameWidth, gameHeight, squaresInColumn) {
          currentColor = white;
        }
 
-       grid[y/squareSize][x/squareSize] = new SolidSquare(x, y, squareSize, currentColor);
+       grid[y/squareSize][x/squareSize] = new Square(x, y, squareSize, currentColor);
 
     }
   }
