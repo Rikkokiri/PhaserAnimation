@@ -27,10 +27,6 @@ Square.prototype = Object.create(Rec.prototype);
 Square.prototype.constructor = Square;
 
 
-// ---------- ADD METHODS? ----------
-
-
-
 // ------- Shrink and expand rectangle --------------
 
 /**
@@ -52,6 +48,8 @@ Square.prototype.shrink = function(amount){
       }
 
       this.sidelength = Math.sqrt(2 * Math.pow(this.cornerDistance, 2));
+      this.height = this.sidelength;
+      this.width = this.sidelength;
     }
 }
 
@@ -63,10 +61,38 @@ Square.prototype.shrink = function(amount){
  */
 Square.prototype.expand = function(amount){
   this.cornerDistance += amount;
+  console.log("Expand called");
 
   for( var point = 0; point < 4; point++ ){
     this.rec.points[point].rotate(this.center.x, this.center.y, 0, true, this.cornerDistance);
   }
 
   this.sidelength = Math.sqrt(2 * Math.pow(this.cornerDistance, 2));
+  this.height = this.sidelength;
+  this.width = this.sidelength;
+}
+
+
+/**
+ * Set the length of the square's side. THe size of the square will change but the center point
+ * will remain the same.
+ *
+ * @param {Number} newSidelength -
+ */
+Square.prototype.setSize = function(newSidelength){
+  if(newSidelength < 0){
+    newSidelength = 0;
+  }
+
+  this.sidelength = newSidelength;
+
+  var newCornerDistance = Math.sqrt(2 * Math.pow((newSidelength / 2), 2));
+
+  if(newCornerDistance > this.cornerDistance){
+    this.expand( newCornerDistance - this.cornerDistance );
+  }
+  else if(newCornerDistance < this.cornerDistance){
+    this.shrink(this.cornerDistance - newCornerDistance );
+  }
+
 }
