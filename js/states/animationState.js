@@ -75,14 +75,11 @@ AnimationState.prototype = {
     music = this.game.add.audio('sail');
     this.addMarkers();
 
-    // music.play("xxzz");
-    // animationNumber = 21;
+    music.play("xxzz");
+    animationNumber = 21;
 
-    // music.play("xxzz2");
-    // animationNumber = 24;
-
-    music.play("PA");
-    animationNumber = 26;
+    // music.play("PA");
+    // animationNumber = 26;
     // music.play();
 
   },
@@ -530,7 +527,7 @@ AnimationState.prototype.update = function() {
 
   // TODO Go from squares to circles
 
-  
+
 
 }
 
