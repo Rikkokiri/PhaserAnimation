@@ -213,9 +213,8 @@ Rec.prototype = {
            this.rec.points[point].rotate(this.center.x, this.center.y, 0, true, this.cornerDistance);
          }
 
-         // Update width and height
-         var width = Phaser.Point.distance(rec.getPoint(0), rec.getPoint(1), false);
-         var height = Phaser.Point.distance(rec.getPoint(1), rec.getPoint(2), false);
+         this.updateWidth();
+         this.updateHeight();
 
        }
    },
@@ -233,15 +232,133 @@ Rec.prototype = {
        this.rec.points[point].rotate(this.center.x, this.center.y, 0, true, this.cornerDistance);
      }
 
-     // Update width and height
-     var width = Phaser.Point.distance(rec.getPoint(0), rec.getPoint(1), false);
-     var height = Phaser.Point.distance(rec.getPoint(1), rec.getPoint(2), false);
+     this.updateWidth();
+     this.updateHeight();
 
-   }
+   },
 
    /*
     * TODO Methods for strecthing the rectangle?
     *
     */
+
+    strecthBottom: function(amount){
+      this.rec.points[2] += amount;
+      this.rec.points[3] += amount;
+
+      this.updateDimensions();
+    },
+
+    /*
+     *
+     */
+    strecthTop: function(amount){
+      this.rec.points[0] -= amount;
+      this.rec.points[1] -= amount;
+
+      this.updateDimensions();
+    },
+
+    /*
+     *
+     */
+    strecthLeft: function(amount){
+      this.rec.points[0] -= amount;
+      this.rec.points[3] -= amount;
+
+      this.updateDimensions();
+    },
+
+    /*
+     *
+     */
+    strecthRight: function(amount){
+      this.rec.points[1] += amount;
+      this.rec.points[2] += amount;
+
+      this.updateDimensions();
+    },
+
+    /*
+     *
+     */
+    strecthWidth: function(amount){
+      this.strecthRight(amount / 2.0);
+      this.strecthLeft(amount / 2.0)
+    },
+
+    /*
+     *
+     */
+    strecthHeight: function(amount){
+      this.strecthTop(amount / 2.0);
+      this.strecthBottom(amount / 2.0);
+    },
+
+    /*
+     * Methods for shrinking too?
+     */
+     shrinkBottom: function(amount){
+       this.strecthBottom(-amount);
+     },
+
+     /*
+      *
+      */
+     shrinkTop: function(amount){
+       this.strecthTop(-amount);
+     },
+
+     /*
+      *
+      */
+     shrinkLeft: function(amount){
+       this.strecthLeft(-amount);
+     },
+
+     /*
+      *
+      */
+     shrinkRight: function(amount){
+       this.strecthRight(-amount);
+     },
+
+     /*
+      *
+      */
+     shrinkWidth: function(amount){
+       this.strecthLeft(-amount / 2.0);
+       this.strecthRight(-amount / 2.0)
+     },
+
+     /*
+      *
+      */
+     shrinkHeight: function(amount){
+       this.strecthTop(-amount / 2.0);
+       this.strecthBottom(-amount / 2.0);
+     },
+
+
+     // ============= Some helper methods ===================
+
+     updateDimensions: function(){
+       this.updateWidth();
+       this.updateHeight();
+       this.updateCornerDistance();
+     },
+
+     updateCornerDistance: function(){
+       // Calculate the corner distance using good old Pythagoras
+       this.cornerDistance = Math.sqrt( Math.pow((this.width / 2), 2) + Math.pow((this.height / 2), 2) );
+     },
+
+     updateWidth: function(){
+       this.width = Phaser.Point.distance(rec.getPoint(0), rec.getPoint(1), false);
+     },
+
+     updateHeight: function(){
+       this.height = Phaser.Point.distance(rec.getPoint(1), rec.getPoint(2), false);
+     }
 
 }
