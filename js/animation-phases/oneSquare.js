@@ -22,15 +22,22 @@ function prepareOneSquareAnimation(gameWidth, gameHeight){
   cX = gameWidth / 2;
   cY = gameHeight / 2;
 
-  oneSquare = new Square(0, 0, 50, squareColor);
+  // Briefly set oneSquare to state it will be in when little squares are added to animation
+  // Create the little squares based on this information
+  oneSquare = new Square(0, 0, 200, squareColor);
   oneSquare.centerOn(cX, cY);
+  createLittleSquares();
+
+  // Make oneSquare disappear (make it tiny);
+  oneSquare.setSize(0);
+
 }
 
 /**
  * Create little squares that will form the bigger square (oneSquare) before
  * spreading out like flies (or something). TODO DOCUMENTATION
  */
-function createLittleSquares(oneSquare){
+function createLittleSquares(){
 
   var littlesize = oneSquare.sidelength / 10;
   var startingY = oneSquare.getPoint(0).y;
@@ -57,5 +64,5 @@ function createLittleSquares(oneSquare){
  *
  */
 function expandTheSquare(amount){
-  
+
 }
