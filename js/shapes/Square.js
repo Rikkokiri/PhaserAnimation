@@ -39,18 +39,20 @@ Square.prototype.constructor = Square;
  */
 Square.prototype.shrink = function(amount){
 
-    if(this.cornerDistance >= 0){
-
-      this.cornerDistance -= amount;
-
-      for( var point = 0; point < 4; point++ ){
-        this.rec.points[point].rotate(this.center.x, this.center.y, 0, true, this.cornerDistance);
-      }
-
-      this.sidelength = Math.sqrt(2 * Math.pow(this.cornerDistance, 2));
-      this.height = this.sidelength;
-      this.width = this.sidelength;
+    if(this.cornerDistance - amount <= 0){
+      this.cornerDistance = 0;
     }
+    else {
+        this.cornerDistance -= amount;
+    }
+
+    for( var point = 0; point < 4; point++ ){
+      this.rec.points[point].rotate(this.center.x, this.center.y, 0, true, this.cornerDistance);
+    }
+
+    this.sidelength = Math.sqrt(2 * Math.pow(this.cornerDistance, 2));
+    this.height = this.sidelength;
+    this.width = this.sidelength;
 }
 
 /**
@@ -86,12 +88,14 @@ Square.prototype.setSize = function(newSidelength){
 
   this.sidelength = newSidelength;
 
-  var newCornerDistance = Math.sqrt(2 * Math.pow((newSidelength / 2), 2));
+  var newCornerDistance;
+  (newSidelength == 0) ? newCornerDistance = 0 : newCornerDistance = Math.sqrt(2 * Math.pow((newSidelength / 2), 2));
+
 
   if(newCornerDistance > this.cornerDistance){
     this.expand( newCornerDistance - this.cornerDistance );
   }
-  else if(newCornerDistance < this.cornerDistance){
+  else if(newCornerDistance <= this.cornerDistance){
     this.shrink(this.cornerDistance - newCornerDistance );
   }
 
