@@ -413,14 +413,50 @@ Rec.prototype = {
       *
       */
      shrinkLeft: function(amount){
-       this.stretchLeft(-amount);
+       var newWidth;
+       (this.width - amount < 0) ? newWidth = 0 : newWidth = this.width - amount;
+
+       var angle0 = this.getPoint(1).angle(this.getPoint(0), true);
+       angle0 -= 90;
+
+       var angle3 = this.getPoint(2).angle(this.getPoint(3), true);
+       angle3 -= 90;
+
+       var newPoint0 = new Phaser.Point(this.getPoint(1).x, this.getPoint(1).y + newWidth);
+       var newPoint3 = new Phaser.Point(this.getPoint(2).x, this.getPoint(2).y + newWidth);
+
+       newPoint0.rotate(this.getPoint(1).x, this.getPoint(1).y, angle0, true, newWidth);
+       newPoint3.rotate(this.getPoint(2).x, this.getPoint(2).y, angle3, true, newWidth);
+
+       this.rec.points[0].setTo(newPoint0.x, newPoint0.y);
+       this.rec.points[3].setTo(newPoint3.x, newPoint3.y);
+
+       this.updateDimensions();
      },
 
      /*
       *
       */
      shrinkRight: function(amount){
-       this.stretchRight(-amount);
+       var newWidth;
+       (this.width - amount < 0) ? newWidth = 0 : newWidth = this.width - amount;
+
+       var angle1 = this.getPoint(0).angle(this.getPoint(1), true);
+       angle1 -= 90;
+
+       var angle2 = this.getPoint(3).angle(this.getPoint(2), true);
+       angle2 -= 90;
+
+       var newPoint1 = new Phaser.Point(this.getPoint(0).x, this.getPoint(0).y + newWidth);
+       var newPoint2 = new Phaser.Point(this.getPoint(3).x, this.getPoint(3).y + newWidth);
+
+       newPoint1.rotate(this.getPoint(0).x, this.getPoint(0).y, angle1, true, newWidth);
+       newPoint2.rotate(this.getPoint(3).x, this.getPoint(3).y, angle2, true, newWidth);
+
+       this.rec.points[1].setTo(newPoint1.x, newPoint1.y);
+       this.rec.points[2].setTo(newPoint2.x, newPoint2.y);
+
+       this.updateDimensions();
      },
 
      /*

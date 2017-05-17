@@ -70,7 +70,7 @@ function create() {
   }
 
 
-  rec.rotateAroundCenter(176);
+  rec.rotateAroundCenter(30);
 
 
   var angle = rec.getPoint(0).angle(rec.getPoint(3), true);
@@ -111,6 +111,8 @@ function create() {
   // rec.stretchRight(90);
   // rec.shrinkBottom(10);
   // rec.shrinkTop(30);
+  // rec.shrinkLeft(50);
+  rec.shrinkRight(50);
 
   rec.draw(graphics);
 
