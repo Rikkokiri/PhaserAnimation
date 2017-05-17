@@ -22,7 +22,7 @@
 
 <script type="text/javascript">
 
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { create: create, update: update });
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { create: create, update: update, render: render });
 
 var centerX = game.width / 2;
 var centerY = game.height / 2;
@@ -30,6 +30,8 @@ var graphics;
 
 var rec;
 var sqr;
+var point;
+var point2;
 
 var rounded;
 
@@ -38,7 +40,7 @@ function create() {
   graphics = game.add.graphics(0,0);
 
   rec = new Rec(100, 100, 80, 150);
-  rec.rotateAroundCenter(45);
+  // rec.rotateAroundCenter(45);
   rec.centerOn(centerX, centerY);
   // rec.setFill(false);
 
@@ -62,18 +64,58 @@ function create() {
   sqr.centerOn(centerX, centerY);
   sqr.setColor(0x000ccc);
   //
-  // for(var i = 0; i < 4; i++){
-  //   console.log(rec.getPoint(i));
-  // }
 
+  for(var i = 0; i < 4; i++){
+    console.log(rec.getPoint(i).getMagnitude());
+  }
+
+  rec.rotateAroundCenter(-56);
+
+  var angle = rec.getPoint(0).angle(rec.getPoint(3), true);
+  console.log("ANGLE", angle);
+
+  var x = rec.getPoint(3).x;
+  var y = rec.getPoint(3).y;
+
+  var angle2 = rec.getPoint(1).angle(rec.getPoint(2), true);
+  console.log("ANGLE", angle2);
+
+  var x2 = rec.getPoint(2).x;
+  var y2 = rec.getPoint(2).y;
+
+  var change = 50;
+  point = new Phaser.Point(x, y + change);
+  angle = angle - 90;
+  console.log("changed angle", angle);
+  point.rotate(x, y, angle, true, change);
+
+  point2 = new Phaser.Point(x2, y2 + change);
+  angle2 = angle2 - 90;
+  console.log("changed angle", angle);
+  point2.rotate(x2, y2, angle2, true, change);
+
+  // rec.getPoint(3).setTo(point);
+
+  // var mag2 = rec.getPoint(2).getMagnitude();
+  // var mag3 = rec.getPoint(3).getMagnitude();
+  //
+  // rec.getPoint(2).setMagnitude(mag2 + 50);
+  // rec.getPoint(3).setMagnitude(mag3 + 50);
+
+  // rec.rotateAroundCenter(45);
+  // rec.stretchBottom(50);
+  // rec.stretchTop(80);
+  // rec.stretchLeft(100);
+  // rec.stretchRight(90);
+  rec.shrinkRight(30);
 
   rec.draw(graphics);
 
-  sqr.draw(graphics);
+  // sqr.draw(graphics);
 
   // function RoundedSquare (upperLeftX, upperLeftY, sidelength, cornerradius, color, linewidth, fill)
   rounded = new RoundedSquare(100, 100, 200, 1);
-  rounded.draw(graphics);
+  // rounded.draw(graphics);
 
 }
 
@@ -95,6 +137,20 @@ function update(){
   //
   // sqr.rotateAroundCenter(1);
 
+}
+
+function render(){
+  game.context.fillStyle = 'rgb(255,255,0)';
+  game.context.fillRect(point.x, point.y, 4, 4);
+
+  game.context.fillStyle = 'rgb(0,255,0)';
+  game.context.fillRect(rec.getPoint(3).x, rec.getPoint(3).y, 4, 4);
+
+  game.context.fillStyle = 'rgb(0, 0, 255)';
+  game.context.fillRect(point2.x, point2.y, 4, 4);
+
+  game.context.fillStyle = 'rgb(255, 0, 255)';
+  game.context.fillRect(rec.getPoint(2).x, rec.getPoint(2).y, 4, 4);
 }
 
 </script>
