@@ -73,17 +73,18 @@ AnimationState.prototype = {
 
     // - - -  Finally... Music! - - -
     music = this.game.add.audio('sail');
-    this.addMarkers();
+    // this.addMarkers();
 
     // music.play("xxzz");
     // animationNumber = 21;
 
-    music.play("teeth");
-    animationNumber = 18;
+    // music.play("teeth");
+    // animationNumber = 18;
 
     // music.play("PA");
     // animationNumber = 26;
-    // music.play();
+
+    music.play();
 
   },
 
