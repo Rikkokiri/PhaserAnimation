@@ -36,6 +36,7 @@ var point2;
 var rounded;
 
 var s2;
+var oneSquare;
 
 function create() {
 
@@ -132,6 +133,23 @@ function create() {
 
   s2.draw(graphics);
 
+  oneSquare = new Square(0, 0, 200, 0xffffff, 1, true);
+  oneSquare.centerOn(centerX, centerY);
+  // createLittleSquares();
+
+  // Make oneSquare disappear (make it tiny);
+  // oneSquare.setSize(0);
+  // console.log("at size 0", oneSquare);
+
+  oneSquare.setSize(1);
+  console.log("at size 50", oneSquare);
+
+  oneSquare.setSize(200);
+  console.log("at size 400", oneSquare);
+
+  oneSquare.moveLeft(200);
+
+  oneSquare.draw(graphics);
 
 
 }
