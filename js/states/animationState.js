@@ -75,8 +75,11 @@ AnimationState.prototype = {
     music = this.game.add.audio('sail');
     this.addMarkers();
 
-    music.play("xxzz");
-    animationNumber = 21;
+    // music.play("xxzz");
+    // animationNumber = 21;
+
+    music.play("teeth");
+    animationNumber = 18;
 
     // music.play("PA");
     // animationNumber = 26;
@@ -104,6 +107,7 @@ AnimationState.prototype = {
     // addMarker(name, start, duration, volume, loop)
 
     // Lift the background
+    music.addMarker("teeth", 13.3, 90);
     music.addMarker("xxzz", 17.3, 60);
     music.addMarker("xxzz2", 21.3, 60);
     music.addMarker("PA", 25.3, 120);
@@ -159,7 +163,7 @@ AnimationState.prototype.update = function() {
 
     if(delayCounter >= 30){
       animationNumber = 2;
-      delayCounter = 0;
+      delayCounter = -1;
     }
 
   }
@@ -167,6 +171,7 @@ AnimationState.prototype.update = function() {
   // TODO Roll in the name?
 
   if(animationNumber == 2){
+    delayCounter++;
 
     if(delayCounter % 30 == 0){
 
@@ -193,8 +198,6 @@ AnimationState.prototype.update = function() {
     }
 
     introSquare.draw(this.graphics);
-
-    delayCounter++;
   }
 
   if(animationNumber == 3){
@@ -215,19 +218,67 @@ AnimationState.prototype.update = function() {
     // Song at 17.4 seconds at this point
     // Wait for 12.4 seconds?
     // 60 fps => counter 60 * 12 = 720
-    if(delayCounter >= 810){
-      animationNumber = 21;
+    if(delayCounter >= 810 - 240){
+      animationNumber = 18;
 
       delayCounter = 0;
     }
 
   }
 
-  // ---------- START SEQUENCE FROM ANIMATION NUMBER 22 ----------
+  // Prepare "the teeth"
+  if(animationNumber == 18){
+    createTeeth(this.game.width, this.game.height);
+    this.game.stage.backgroundColor = "0xffffff";
+    delayCounter = -1;
+    animationNumber = 19;
+  }
+
+  /*
+   * The teeth sequence will run from 13.3 s till 17.3 s and hence last 4 seconds
+   * which equals to 240 frames (60 fps).
+   *
+   * Beats will go as follows: Move, move, wait, move, move, move wait, close gaps TODO Remove
+   */
+  if(animationNumber == 19){
+    delayCounter++;
+
+    // Start doing something every half second
+    if(delayCounter % 30 == 0){
+      if(delayCounter <= 150){
+        growTeeth(100);
+      }
+      if(delayCounter == 180 || delayCounter == 210){
+        widenTeeth(11.5);
+      }
+    }
+
+    drawTeeth(this.graphics);
+
+    if(delayCounter >= 240){
+      this.game.stage.backgroundColor = "0x000000";
+      delayCounter = 0;
+      animationNumber = 20;
+    }
+
+  }
+
+  if(animationNumber == 20){
+    delayCounter++;
+
+
+    if(delayCounter >= 30){
+      delayCounter = 0;
+      animationNumber = 21;
+    }
+  }
+
+  // ---------- START SEQUENCE FROM ANIMATION NUMBER 21 ----------
 
   //Prepare for square slide animation
   if(animationNumber == 21){
     this.prepareSlideAnimation();
+    delayCounter = 0;
     animationNumber = 22;
   }
 
@@ -307,20 +358,14 @@ AnimationState.prototype.update = function() {
 
   // Prepare to pulse squares
   if(animationNumber == 27){
+
     this.game.stage.backgroundColor = "0xffffff";
-    // checkeredGrid = createCheckeredHalfEmptyGrid(game.width, game.height, squaresInColumn, "0x000000", false);
     checkeredGridBlack = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", false, 100, 100);
     checkeredGridWhite = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0xFFFFFF", false, 100, 100);
-    // checkeredGridWhite = createCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, 0xFFFFFF, true);
-
-    console.log(checkeredGridBlack);
-    console.log(checkeredGridWhite);
 
     drawGrid(this.graphics, checkeredGridBlack);
 
-    // pulseGoal = 1.15 * checkeredGridBlack[0][1].sidelength;
     pulseGoal = 142.4;
-    // shrinkGoal = 80;
     returnGoal = checkeredGridBlack[0][1].sidelength;
 
     delayCounter = 0;
@@ -347,7 +392,6 @@ AnimationState.prototype.update = function() {
       }
       else if(delayCounter >= time){
         // Move on to the next animation?
-
         animationNumber++
         delayCounter = 0;
         expanding = true;
@@ -396,7 +440,7 @@ AnimationState.prototype.update = function() {
 
   // Spin squares
   if(animationNumber == 32){
-     console.log("STATE 32");
+
     this.game.stage.backgroundColor = "0xffffff";
     drawGrid(this.graphics, checkeredGridBlack);
 
@@ -418,7 +462,6 @@ AnimationState.prototype.update = function() {
 
   if(animationNumber == 34){
     this.game.stage.backgroundColor = "0xffffff";
-    console.log("STATE 34");
 
     if(rotationSum < 180){
       spinSquaresTwoDirections(this.graphics, checkeredGrid, rotationAngle);
@@ -436,7 +479,6 @@ AnimationState.prototype.update = function() {
   }
 
   if(animationNumber == 35){
-    console.log("STATE 35");
     delayCounter++;
 
     if(delayCounter <= 1){
@@ -454,7 +496,6 @@ AnimationState.prototype.update = function() {
   }
 
   if(animationNumber == 36){
-    console.log("STATE 36");
     delayCounter++;
 
     if(delayCounter <= 1){
@@ -473,7 +514,6 @@ AnimationState.prototype.update = function() {
 
   // Spin squares
   if(animationNumber == 37){
-     console.log("STATE 37");
     this.game.stage.backgroundColor = "0x000000";
 
     drawGrid(this.graphics, checkeredGridWhite);
@@ -493,7 +533,6 @@ AnimationState.prototype.update = function() {
   }
 
   if(animationNumber == 38){
-    console.log("STATE 38");
     delayCounter++;
 
     drawGrid(this.graphics, checkeredGrid);
@@ -507,7 +546,6 @@ AnimationState.prototype.update = function() {
   }
 
   if(animationNumber == 39){
-    console.log("STATE 39");
     delayCounter++;
 
     drawGrid(this.graphics, checkeredGrid);

@@ -42,7 +42,6 @@ Square.prototype.constructor = Square;
  * @param {Number} amount - How much rectangle's corners are moved towards its center point.
  */
 Square.prototype.shrink = function(amount){
-    console.log("Shrinking square!");
 
     if(this.cornerDistance >= 0){
 
