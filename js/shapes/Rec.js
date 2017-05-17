@@ -320,6 +320,7 @@ Rec.prototype = {
      *
      */
     stretchRight: function(amount){
+
       var angle1 = this.getPoint(0).angle(this.getPoint(1), true);
       angle1 -= 90;
 
@@ -361,14 +362,51 @@ Rec.prototype = {
      * Methods for shrinking too?
      */
      shrinkBottom: function(amount){
-       this.stretchBottom(-amount);
+
+       var newHeigth;
+       (this.height - amount < 0) ? newHeigth = 0 : newHeigth = this.height - amount;
+
+       var angle2 = this.getPoint(1).angle(this.getPoint(2), true);
+       angle2 -= 90;
+
+       var angle3 = this.getPoint(0).angle(this.getPoint(3), true);
+       angle3 -= 90;
+
+       var newPoint2 = new Phaser.Point(this.getPoint(1).x, this.getPoint(1).y + newHeigth);
+       var newPoint3 = new Phaser.Point(this.getPoint(0).x, this.getPoint(0).y + newHeigth);
+
+       newPoint2.rotate(this.getPoint(1).x, this.getPoint(1).y, angle2, true, newHeigth);
+       newPoint3.rotate(this.getPoint(0).x, this.getPoint(0).y, angle3, true, newHeigth);
+
+       this.rec.points[2].setTo(newPoint2.x, newPoint2.y);
+       this.rec.points[3].setTo(newPoint3.x, newPoint3.y);
+
+       this.updateDimensions();
      },
 
      /*
       *
       */
      shrinkTop: function(amount){
-       this.stretchTop(-amount);
+       var newHeigth;
+       (this.height - amount < 0) ? newHeigth = 0 : newHeigth = this.height - amount;
+
+       var angle1 = this.getPoint(2).angle(this.getPoint(1), true);
+       angle1 -= 90;
+
+       var angle0 = this.getPoint(3).angle(this.getPoint(0), true);
+       angle0 -= 90;
+
+       var newPoint1 = new Phaser.Point(this.getPoint(2).x, this.getPoint(2).y + newHeigth);
+       var newPoint0 = new Phaser.Point(this.getPoint(3).x, this.getPoint(3).y + newHeigth);
+
+       newPoint1.rotate(this.getPoint(2).x, this.getPoint(2).y, angle1, true, newHeigth);
+       newPoint0.rotate(this.getPoint(3).x, this.getPoint(3).y, angle0, true, newHeigth);
+
+       this.rec.points[1].setTo(newPoint1.x, newPoint1.y);
+       this.rec.points[0].setTo(newPoint0.x, newPoint0.y);
+
+       this.updateDimensions();
      },
 
      /*

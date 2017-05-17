@@ -69,7 +69,9 @@ function create() {
     console.log(rec.getPoint(i).getMagnitude());
   }
 
-  rec.rotateAroundCenter(-56);
+
+  rec.rotateAroundCenter(176);
+
 
   var angle = rec.getPoint(0).angle(rec.getPoint(3), true);
   console.log("ANGLE", angle);
@@ -107,7 +109,8 @@ function create() {
   // rec.stretchTop(80);
   // rec.stretchLeft(100);
   // rec.stretchRight(90);
-  rec.shrinkRight(30);
+  // rec.shrinkBottom(10);
+  // rec.shrinkTop(30);
 
   rec.draw(graphics);
 
