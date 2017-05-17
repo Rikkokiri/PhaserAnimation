@@ -21,8 +21,8 @@ function RoundedSquare (upperLeftX, upperLeftY, sidelength, cornerradius, color,
   if (upperLeftY === undefined){ upperLeftXY = 0; }
   if (sidelength === undefined){ sidelength = 0; }
   if (cornerradius === undefined){ cornerradius = 50; }
-  if (color === undefined){ color = 0xff0000; }
-  if (linewidth === unde fined) { linewidth = 1; }
+  if (color === undefined) { color = 0xff0000; }
+  if (linewidth === undefined) { linewidth = 1; }
   if (fill === undefined) { fill = true; }
 
   // TODO Remove?
@@ -49,7 +49,7 @@ RoundedSquare.prototype = {
    */
   draw: function(graphics) {
 
-    if(fill){
+    if(this.fill){
       graphics.beginFill(this.color);
       graphics.drawShape(this.square);
       graphics.endFill();
@@ -73,8 +73,15 @@ RoundedSquare.prototype = {
   },
 
   // TODO METHODS FOR INCREASING AND DECREASING THE CORNERRADIUS
+  increaseRadius: function(amount){
+    // Can't go below 1
+  },
 
-  
+  decreaseRadius: function(amount){
+    // Going above sidelength / 2 doesn't change anything anymore
+    
+  },
+
 
   /*
    * TODO Method's for moving the shape
