@@ -35,6 +35,8 @@ var point2;
 
 var rounded;
 
+var s2;
+
 function create() {
 
   graphics = game.add.graphics(0,0);
@@ -121,6 +123,16 @@ function create() {
   // function RoundedSquare (upperLeftX, upperLeftY, sidelength, cornerradius, color, linewidth, fill)
   rounded = new RoundedSquare(100, 100, 200, 1);
   // rounded.draw(graphics);
+
+  s2 = new Square(100, 400, 50, 0xdd00ee);
+
+  s2.rotateAroundCenter(45);
+  s2.setSize(150);
+  console.log("S2", s2);
+
+  s2.draw(graphics);
+
+
 
 }
 
