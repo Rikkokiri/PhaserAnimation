@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Phaser - Testing Teeth</title>
+
+  <script src="../js/phaser.min.js"></script>
+  <script src="../js/shapes/Rec.js"></script>
+  <script src="../js/shapes/Square.js"></script>
+  <script src="../js/shapes/SolidSquare.js"></script>
+  <script src="../js/shapes/RoundedSquare.js"></script>
+
+  <script src="../js/animation-phases/teeth.js"></script>
+
+  <style type="text/css">
+
+    body {
+      margin: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { create: create, update: update });
+
+var centerX = game.width / 2;
+var centerY = game.height / 2;
+var graphics;
+
+
+function create() {
+
+  graphics = game.add.graphics(0,0);
+
+  createTeeth(game.width, game.height);
+  drawTeeth(graphics);
+
+}
+
+function update(){
+
+  // graphics.clear();
+  // animateTeethGrowing(graphics, 10);
+
+}
+
+</script>
+
+</body>
+</html>
