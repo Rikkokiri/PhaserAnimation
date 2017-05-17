@@ -59,10 +59,6 @@ AnimationState.prototype = {
     this.createEssentials();
 
 
-    introSquare = new Square(0, 0, 50, "0xffffff");
-    introSquare.centerOn(centerX, centerY);
-
-
     // For square reveal
 
     // Create the squares that will be moved to reveal the 6 x 8 checkered square grid
@@ -83,7 +79,6 @@ AnimationState.prototype = {
 
     // music.play("PA");
     // animationNumber = 26;
-
     music.play();
 
   },
@@ -164,47 +159,56 @@ AnimationState.prototype.update = function() {
 
     if(delayCounter >= 30){
       animationNumber = 2;
+      prepareOneSquareAnimation(this.game.width, this.game.height);
       delayCounter = -1;
+      oneSquare.draw(this.graphics);
     }
 
   }
 
-  // TODO Roll in the name?
-
+  // Bring forward one square
   if(animationNumber == 2){
     delayCounter++;
 
     if(delayCounter % 30 == 0){
-
-      // introSquare.expand(delayCounter);
-      introSquare.expand(delayCounter);
-
-      if(delayCounter >= 150){ // TODO Or 210?
-
-        console.log("Expanding complete");
-        this.game.stage.backgroundColor = "0xffffff"; // TODO Remove?
+      if(delayCounter <= 60){
+        oneSquare.setSize(oneSquare.sidelength + ((delayCounter / 30) + 1) * 25);
+      }
+      if(delayCounter === 90){
+        // oneSquare.rotateAroundCenter(-45);
+        oneSquare.moveLeft(this.game.width * 0.35);
+        oneSquare.setSize(200)
+      }
+      if(delayCounter === 120){
+        // oneSquare.rotateAroundCenter(90);
+        oneSquare.moveRight(this.game.width * 0.7);
+        oneSquare.setSize(240)
+      }
+      if(delayCounter === 150){
+        // oneSquare.rotateAroundCenter(-45);
+        oneSquare.moveLeft(this.game.width * 0.35);
+        oneSquare.setSize(300);
+      }
+      if(delayCounter === 180){
+        oneSquare.setColor(0x000000);
+      }
+      if(delayCounter >= 210){
+        restoreOneSquareColor();
         delayCounter = 0;
         animationNumber = 3;
       }
 
-      // Square color
-      if((delayCounter / 30) % 2 == 0){
-        // introSquare.setColor("0xff0000");
-        introSquare.setColor("0xa50000");
-      }
-      else {
-        introSquare.setColor("0xffffff");
-      }
-
     }
-
-    introSquare.draw(this.graphics);
+    oneSquare.draw(this.graphics);
   }
 
+  // Square explosion!
   if(animationNumber == 3){
-    // Maybe?
-    // this.flashBackgroundColors(30, 0x000000, 0xffffff);
-    //
+    // oneSquare.draw(this.graphics);
+    console.log(littleSquares);
+
+    drawGrid(this.graphics, littleSquares);
+
     animationNumber = 4;
     delayCounter = 0;
     this.game.stage.backgroundColor = "0x000000"; // TODO Remove?
@@ -212,6 +216,9 @@ AnimationState.prototype.update = function() {
 
   if(animationNumber == 4){
     delayCounter++;
+
+    drawGrid(this.graphics, littleSquares);
+    // oneSquare.draw(this.graphics); //TODO
 
     // This will just be a placeholder for a while
     // Wait for the part where the square sliding sequence starts
