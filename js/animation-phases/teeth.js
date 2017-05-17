@@ -1,10 +1,13 @@
 var upperTeeth = [];
 var lowerTeeth = [];
+var distance;
+var growingSum = 0;
 
 function createTeeth(gameWidth, gameHeight){
 
-  var teethWidth = gameWidth / 16;
-  var teethLength = gameHeigth * (5 / 12);
+  var teethWidth = gameHeight / 16;
+  var teethLength = gameHeight * (5 / 12);
+  distance = gameHeight * (1 / 12);
 
   var y = 0;
 
@@ -13,7 +16,7 @@ function createTeeth(gameWidth, gameHeight){
     upperTeeth.push(new Rec(x, y, teethLength, teethWidth, 0xffffff));
   }
 
-  y = gameHeigth * (7 / 12);
+  y = gameHeight * (7 / 12);
 
   for(var x = 2 * teethWidth; x < gameWidth; x += 3 * teethWidth){
     upperTeeth.push(new Rec(x, y, teethLength, teethWidth, 0xffffff));
@@ -27,11 +30,11 @@ function createTeeth(gameWidth, gameHeight){
 function drawTeeth(graphics){
 
   for(var index = 0; index < upperTeeth.length; index++){
-    upperTeeth[i].draw(graphics);
+    upperTeeth[index].draw(graphics);
   }
 
   for(var index = 0; index < lowerTeeth.length; index++){
-    lowerTeeth[i].draw(graphics);
+    lowerTeeth[index].draw(graphics);
   }
 
 }
@@ -39,14 +42,24 @@ function drawTeeth(graphics){
 /**
  *
  */
-function growTeeth(){
+function growTeeth(amount){
 
   for(var index = 0; index < upperTeeth.length; index++){
-
+    upperTeeth[index].stretchBottom(amount);
   }
 
   for(var index = 0; index < lowerTeeth.length; index++){
-    
+    lowerTeeth[index].stretchTop(amount);
   }
+
+}
+
+function animateTeethGrowing(graphics, amount){
+
+  if(growingSum < distance){
+    growTeeth(amount);
+    growingSum += amount;
+  }
+  drawTeeth(graphics);
 
 }
