@@ -8,6 +8,7 @@
   <script src="../js/shapes/Rec.js"></script>
   <script src="../js/shapes/Square.js"></script>
   <script src="../js/shapes/SolidSquare.js"></script>
+  <script src="../js/shapes/RoundedSquare.js"></script>
 
   <style type="text/css">
 
@@ -29,6 +30,8 @@ var graphics;
 
 var rec;
 var sqr;
+
+var rounded;
 
 function create() {
 
@@ -67,6 +70,10 @@ function create() {
   rec.draw(graphics);
 
   sqr.draw(graphics);
+
+  // function RoundedSquare (upperLeftX, upperLeftY, sidelength, cornerradius, color, linewidth, fill)
+  rounded = new RoundedSquare(100, 100, 200, 1);
+  rounded.draw(graphics);
 
 }
 
