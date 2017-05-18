@@ -9,7 +9,7 @@ var cY; // Y-coordinate of the center of the canvas
 
 var oneSquare = 0;
 var squareColor = 0xffffff;
-var explosionSize = 200;
+var explosionSize = 300;
 var littleSquares;
 
 var squareGoalPositions = [];
@@ -33,6 +33,34 @@ function prepareOneSquareAnimation(gameWidth, gameHeight){
   // Make oneSquare disappear (make it tiny);
   oneSquare.setSize(1);
 
+}
+
+function oneSquareSequence(phase){
+  
+  if(phase <= 2){
+    oneSquare.setSize(oneSquare.sidelength + ((delayCounter / 30) + 1) * 25);
+  }
+  if(phase === 3){
+    // oneSquare.rotateAroundCenter(-45);
+    oneSquare.moveLeft(this.game.width * 0.35);
+    oneSquare.setSize(200)
+  }
+  if(phase === 4){
+    // oneSquare.rotateAroundCenter(90);
+    oneSquare.moveRight(this.game.width * 0.7);
+    oneSquare.setSize(240)
+  }
+  if(phase === 5){
+    // oneSquare.rotateAroundCenter(-45);
+    oneSquare.moveLeft(this.game.width * 0.35);
+    oneSquare.setSize(300);
+  }
+  if(phase === 6){
+    oneSquare.setColor(0x000000);
+  }
+  if(phase === 7){
+    restoreOneSquareColor();
+  }
 }
 
 /**
@@ -135,7 +163,7 @@ function calculateExplosionPoints(){
       for(var col = 0; col < numberOfCols; col++){
 
         //
-        
+
 
       }
     }

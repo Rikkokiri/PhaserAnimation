@@ -196,35 +196,16 @@ AnimationState.prototype.update = function() {
     delayCounter++;
 
     if(delayCounter % 30 == 0){
-      if(delayCounter <= 60){
-        oneSquare.setSize(oneSquare.sidelength + ((delayCounter / 30) + 1) * 25);
-      }
-      if(delayCounter === 90){
-        // oneSquare.rotateAroundCenter(-45);
-        oneSquare.moveLeft(this.game.width * 0.35);
-        oneSquare.setSize(200)
-      }
-      if(delayCounter === 120){
-        // oneSquare.rotateAroundCenter(90);
-        oneSquare.moveRight(this.game.width * 0.7);
-        oneSquare.setSize(240)
-      }
-      if(delayCounter === 150){
-        // oneSquare.rotateAroundCenter(-45);
-        oneSquare.moveLeft(this.game.width * 0.35);
-        oneSquare.setSize(300);
-      }
-      if(delayCounter === 180){
-        oneSquare.setColor(0x000000);
-      }
-      if(delayCounter >= 210){
-        restoreOneSquareColor();
-        delayCounter = 0;
-        animationNumber = 9;
-      }
-
+      oneSquareSequence(delayCounter / 30);
     }
+
     oneSquare.draw(this.graphics);
+
+    if(delayCounter >= 210){
+      delayCounter = 0;
+      animationNumber = 9;
+    }
+
   }
 
   // Square explosion!
