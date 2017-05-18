@@ -80,8 +80,14 @@ Square.prototype.expand = function(amount){
  * will remain the same.
  *
  * @param {Number} newSidelength -
+ *
+ * If sidelength is set to 0, the square can't be expanded back to how it was.
  */
 Square.prototype.setSize = function(newSidelength){
+  if(newSidelength === this.sidelength){
+    return;
+  }
+
   if(newSidelength < 0){
     newSidelength = 0;
   }
@@ -89,13 +95,13 @@ Square.prototype.setSize = function(newSidelength){
   this.sidelength = newSidelength;
 
   var newCornerDistance;
-  (newSidelength == 0) ? newCornerDistance = 0 : newCornerDistance = Math.sqrt(2 * Math.pow((newSidelength / 2), 2));
+  (this.sidelength === 0) ? newCornerDistance = 0 : newCornerDistance = Math.sqrt(2 * Math.pow((this.sidelength / 2), 2));
 
 
   if(newCornerDistance > this.cornerDistance){
     this.expand( newCornerDistance - this.cornerDistance );
   }
-  else if(newCornerDistance <= this.cornerDistance){
+  else if(newCornerDistance < this.cornerDistance){
     this.shrink(this.cornerDistance - newCornerDistance );
   }
 
