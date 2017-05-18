@@ -31,11 +31,11 @@ function Rec (upperLeftX, upperLeftY, height, width, color, linewidth, fill) {
     this.width = width;
 
     var points = [new Phaser.Point(upperLeftX, upperLeftY),
-                new Phaser.Point(upperLeftX + width, upperLeftY),
-                new Phaser.Point(upperLeftX + width, upperLeftY + height),
-                new Phaser.Point(upperLeftX, upperLeftY + height)];
+                new Phaser.Point(upperLeftX + this.width, upperLeftY),
+                new Phaser.Point(upperLeftX + this.width, upperLeftY + this.height),
+                new Phaser.Point(upperLeftX, upperLeftY + this.height)];
 
-    this.center = new Phaser.Point(upperLeftX + width / 2, upperLeftY + height / 2);
+    this.center = new Phaser.Point(upperLeftX + this.width / 2, upperLeftY + this.height / 2);
 
     this.color = color;
     this.linewidth = linewidth;

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Phaser - Little Sqaures</title>
+
+  <script src = "../js/phaser.min.js"></script>
+  <script src = "../js/shapes/Rec.js"></script>
+  <script src = "../js/shapes/Square.js"></script>
+  <script src = "../js/shape-composites/squareGrid.js"></script>
+
+  <script src = "../js/animation-phases/oneSquare.js"></script>
+
+
+  <style type="text/css">
+
+    body {
+      margin: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { create: create, update: update });
+
+var centerX = game.width / 2;
+var centerY = game.height / 2;
+var graphics;
+
+var animationNumber = 1;
+var delayCounter = 0;
+
+var testSquare;
+
+function create() {
+
+  graphics = game.add.graphics(0,0);
+  prepareOneSquareAnimation(game.width, game.height);
+
+  // drawGrid(graphics, littleSquares);
+
+  calculateGoalPositionsForLittleSquares(game.width, game.height);
+
+  console.log("Goal position", squareGoalPositions);
+
+  moveLittleSquares();
+
+  drawGrid(graphics, littleSquares);
+
+  console.log(littleSquares);
+
+  // calculateGoalPositionsForLittleSquares(this.game.width, this.game.height); d
+  // moveLittleSquares();
+
+}
+
+function update(){
+
+  // graphics.clear();
+
+
+
+}
+
+</script>
+
+</body>
+</html>

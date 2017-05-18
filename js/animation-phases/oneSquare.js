@@ -10,7 +10,9 @@ var cY; // Y-coordinate of the center of the canvas
 var oneSquare = 0;
 var squareColor = 0xffffff;
 var explosionSize = 200;
-var littleSquares = [];
+var littleSquares;
+
+var squareGoalPositions = [];
 
 /*
  * Prepare for the animation sequence by defining some regularly used values
@@ -24,9 +26,9 @@ function prepareOneSquareAnimation(gameWidth, gameHeight){
 
   // Briefly set oneSquare to state it will be in when little squares are added to animation
   // Create the little squares based on this information
-  oneSquare = new Square(0, 0, explosionSize, squareColor, 1, true);
+  oneSquare = new Square(0, 0, explosionSize, squareColor);
   oneSquare.centerOn(cX, cY);
-  createLittleSquares();
+  createLittleSquares(oneSquare);
 
   // Make oneSquare disappear (make it tiny);
   oneSquare.setSize(1);
@@ -37,20 +39,20 @@ function prepareOneSquareAnimation(gameWidth, gameHeight){
  * Create little squares that will form the bigger square (oneSquare) before
  * spreading out like flies (or something). TODO DOCUMENTATION
  */
-function createLittleSquares(){
+function createLittleSquares(biggerSquare){
 
-  var littlesize = oneSquare.sidelength / 10;
-  var startingY = oneSquare.getPoint(0).y;
-  var startingX = oneSquare.getPoint(0).x;
+  var littlesize = biggerSquare.sidelength / 10;
+  var startingY = biggerSquare.getPoint(0).y;
+  var startingX = biggerSquare.getPoint(0).x;
 
-  var endingY = oneSquare.getPoint(2).y - littlesize;
-  var endingX = oneSquare.getPoint(2).x - littlesize;
+  var endingY = biggerSquare.getPoint(2).y - littlesize;
+  var endingX = biggerSquare.getPoint(2).x - littlesize;
 
+  littleSquares = [];
 
   for(var y = startingY; y <= endingY; y += littlesize){
 
-    var row = (y - startingY) % littlesize;
-    console.log("Row:", row);
+    var row = (y - startingY) / littlesize;
 
     if(littleSquares[row] === undefined){
       littleSquares[row] = [];
@@ -60,10 +62,90 @@ function createLittleSquares(){
       // function Square (upperLeftX, upperLeftY, sidelength, color, linewidth, fill);
       littleSquares[row].push(new Square(x, y, littlesize, squareColor, 0, true));
     }
+
   }
-  console.log("Squares created", littleSquares);
 }
 
+/**
+ * Restore OneSquare's colour to it's original, pre-defined color.
+ */
 function restoreOneSquareColor(){
   oneSquare.setColor(squareColor);
 }
+
+
+/**
+ *
+ */
+function calculateGoalPositionsForLittleSquares(gameWidth, gameHeight){
+
+   var xInterval = gameWidth / littleSquares[0].length;
+   var yInterval = gameHeight / littleSquares.length;
+
+   var numberOfRows = littleSquares.length;
+   var numberOfCols = littleSquares[0].length;
+
+   for(var row = 0; row < numberOfRows; row++){
+
+     if(squareGoalPositions[row] === undefined){
+       squareGoalPositions[row] = [];
+     }
+
+     for(var col = 0; col < numberOfCols; col++){
+
+       // Calculate x coordinate
+       var xCoord = 0.5 * xInterval + col * xInterval;
+
+       // Calculate y coordinate
+       var yCoord = 0.5 * yInterval + row * yInterval;
+
+       // Save coordinates for square
+       squareGoalPositions[row][col] = new Phaser.Point(xCoord, yCoord);
+
+     }
+   }
+}
+
+function moveLittleSquares(){
+
+  var numberOfRows = littleSquares.length;
+  var numberOfCols = littleSquares[0].length;
+
+  console.log("numberOfRows", numberOfRows);
+  console.log("numberOfCols", numberOfCols);
+
+  for(var row = 0; row < numberOfRows; row++){
+    for(var col = 0; col < numberOfCols; col++){
+
+      var point = squareGoalPositions[row][col];
+      littleSquares[row][col].centerOn(point.x, point.y);
+
+    }
+  }
+
+}
+
+// /**
+//  *
+//  */
+// function drawLittleSquares(graphics){
+//
+//   for(var row = 0; row < littleSquares.length; row++){
+//     for(var col = 0; col < littleSquares[row].length; col++){
+//
+//       littleSquares[row][col].draw(graphics);
+//
+//     }
+//   }
+// }
+
+/**
+ *
+ */
+function calculateIncrementalMovePoints(numberOfPoints){
+
+}
+
+/**
+ * Move squares
+ */

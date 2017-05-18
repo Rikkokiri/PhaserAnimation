@@ -153,12 +153,29 @@ AnimationState.prototype.update = function() {
     }
   }
 
-  // Prepare for the next phase
+  // Wait from 1.3 second mark to 5.3 second mark
+  // => 4 seconds => 240 frames
   if(animationNumber == 1){
     delayCounter++;
 
+    if(delayCounter >= 240){
+      delayCounter = 0;
+      animationNumber = 7;
+    }
+  }
+
+  /*
+   * Show some text or something before bringing in the square?
+   */
+
+
+  // Bring the one white square in at 5.3 seconds
+  // Prepare for the next phase
+  if(animationNumber == 7){
+    delayCounter++;
+
     if(delayCounter >= 30){
-      animationNumber = 2;
+      animationNumber = 8;
       prepareOneSquareAnimation(this.game.width, this.game.height);
       delayCounter = -1;
       oneSquare.draw(this.graphics);
@@ -167,7 +184,7 @@ AnimationState.prototype.update = function() {
   }
 
   // Bring forward one square
-  if(animationNumber == 2){
+  if(animationNumber == 8){
     delayCounter++;
 
     if(delayCounter % 30 == 0){
@@ -195,7 +212,7 @@ AnimationState.prototype.update = function() {
       if(delayCounter >= 210){
         restoreOneSquareColor();
         delayCounter = 0;
-        animationNumber = 3;
+        animationNumber = 9;
       }
 
     }
@@ -203,32 +220,43 @@ AnimationState.prototype.update = function() {
   }
 
   // Square explosion!
-  if(animationNumber == 3){
-    // oneSquare.draw(this.graphics);
-    console.log(littleSquares);
-
+  if(animationNumber == 9){
     drawGrid(this.graphics, littleSquares);
 
-    animationNumber = 4;
+    animationNumber = 10;
     delayCounter = 0;
     this.game.stage.backgroundColor = "0x000000"; // TODO Remove?
   }
 
-  if(animationNumber == 4){
+  if(animationNumber == 10){
+
+    calculateGoalPositionsForLittleSquares(this.game.width, this.game.height);
+    moveLittleSquares();
+    delayCounter = 10;
+    animationNumber = 11;
+  }
+
+  if(animationNumber == 11){
     delayCounter++;
 
     drawGrid(this.graphics, littleSquares);
+
     // oneSquare.draw(this.graphics); //TODO
+
+
 
     // This will just be a placeholder for a while
     // Wait for the part where the square sliding sequence starts
 
+    if(delayCounter == 200){
+      this.game.stage.backgroundColor = 0xffffff;
+    }
+
     // Song at 17.4 seconds at this point
     // Wait for 12.4 seconds?
     // 60 fps => counter 60 * 12 = 720
-    if(delayCounter >= 810 - 240){
+    if(delayCounter >= 240){
       animationNumber = 18;
-
       delayCounter = 0;
     }
 
