@@ -9,12 +9,25 @@ var cY; // Y-coordinate of the center of the canvas
 
 var oneSquare = 0;
 var squareColor = 0xffffff;
-var explosionSize = 300;
+var explosionSize = 200;
 var littleSquares;
 
 var littleSquaresSquarePositions;
 var squareGoalPositions;
 var spaceySquarePositions = [];
+
+// Lower right
+var explosionAngles =
+[[45,   59.1,   98.4,   50.6,   90,    0,   5.625,  8.4375,   14.1,    45],
+[14.1,  45,     61.9,   78.75,  90,    0,  11.25,  16.875,    45,      59.0],
+[8.4,   16.9,   45,     67.5,   90,    0,   22.5,   45,       61.875,  98.4],
+[5.6,   11.25,  22.5,   45,     90,    0,   45,     67.5,     78.75,   50.6],
+[0,     0,      0,      0,      45,    0,   90.0,   90.0,     90.0,    90.0],
+[90,    80,     75,     70,     0,     0,   0,      0,        0,       0],
+[50.6,  78.7,   67.5,   45,     0,     90,  45,     22.5,     11.25,   5.6],
+[98.4,  61.9,   45,     22.5,   0,     90,  67.5,   45,       16.9,    8.4],
+[59.1,  45,     16.9,   11.25,  0,     90,  78.7,   61.9,     45,      14.1],
+[45,    14.1,   8.4,    5.6,    0,     90,  50.6,   98.4,     59.1,    45]];
 
 /*
  * Prepare for the animation sequence by defining some regularly used values
@@ -70,6 +83,7 @@ function oneSquareSequence(phase, graphics){
     oneSquare.setColor(0x000000);
   }
   if(phase === 7){
+    oneSquare.setSize(200);
     restoreOneSquareColor();
   }
 
@@ -242,14 +256,43 @@ function littleSquaresExplosion(){
     var numberOfRows = littleSquares.length;
     var numberOfCols = littleSquares[0].length;
 
+    // Upper section
+
+    var anglematrix;
+
     for(var row = 0; row < numberOfRows; row++){
       for(var col = 0; col < numberOfCols; col++){
 
-        var distance = 100 * Math.random() + 100;
-        var angle = 360 * Math.random();
-        littleSquares[row][col].moveDistanceInAngle(distance, angle);
+
+        var angle = getBaseAngle(row, col) + explosionAngles[row][col];
+        var distanceMultiplier = Math.abs(row - 4.5) + Math.abs(col - 4.5);
+
+        littleSquares[row][col].moveDistanceInAngle(distanceMultiplier + 50, angle);
       }
     }
+
+}
+
+
+
+function getBaseAngle(y, x){
+
+  if(x >= 5){
+    if(y >= 5){
+      return 0;
+    }
+    else {
+      return 270;
+    }
+  }
+  else if(x < 5){
+    if(y >= 5){
+      return 90;
+    }
+    else {
+      return 180;
+    }
+  }
 
 }
 

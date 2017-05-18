@@ -230,10 +230,12 @@ AnimationState.prototype.update = function() {
 
       // JUST TESTING
       if(delayCounter == 30 || delayCounter == 60){
-        littleSquaresExplosionRandom();
+        // littleSquaresExplosionRandom();
+        spaceySquareFormation();
       }
       if(delayCounter == 90 || delayCounter == 180){
         littleSquaresToSquareFormation();
+        // spaceySquareFormation();
       }
       if(delayCounter == 120){
         // spreadOutFormation();

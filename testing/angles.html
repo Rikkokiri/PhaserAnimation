@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Angles</title>
+</head>
+<body>
+  <script>
+
+
+      // function print2DArray(array){
+      //
+      //   console.log("Print array");
+      //
+      //
+      //
+      // }
+
+
+    var angles1 = [[0, 	0, 		0, 		0, 0],
+[90, 	45, 	22.5, 	11.25, 	5.6],
+[90, 	67.5, 	45, 	16.9, 	8.4],
+[90, 	78.7, 	61.9, 	45, 	14.1],
+[90, 	50.6, 	98.4, 	59.1, 	45]]
+
+    var array = [];
+
+    for(var i = 0; i < 5; i++){
+
+      if(array[i] === undefined){
+        array[i] = [];
+      }
+
+      for(var j = 4; j >= 0; j--){
+
+        array[i].push(angles1[j][i]);
+
+      }
+    }
+
+
+    // console.log(array.toString());
+
+
+    for(var i = 0; i < array.length; i++){
+      document.write("<br />")
+      for(var j = 0; j < array[i].length; j++){
+        document.write(array[i][j] + ", ");
+      }
+    }
+
+  </script>
+
+</body>
+</html>
