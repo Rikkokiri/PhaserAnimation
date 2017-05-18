@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Phaser - Transition</title>
+
+  <script src = "../js/phaser.min.js"></script>
+  <script src = "../js/shapes/Rec.js"></script>
+  <script src = "../js/shapes/Square.js"></script>
+  <script src = "../js/shape-composites/squareGrid.js"></script>
+
+  <script src = "../js/animation-phases/oneSquare.js"></script>
+
+
+
+  <style type="text/css">
+
+    body {
+      margin: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { create: create, update: update });
+
+var centerX = game.width / 2;
+var centerY = game.height / 2;
+var graphics;
+
+var gWidth;
+var gHeight;
+var gCenterX;
+var gCenterY;
+var game;
+
+var presentsText;
+var line1Content = ["THE ", "RESULT ", "OF ", "DAYS ", "OF"];
+var line2Content = "S H A M E L E S S"
+var line3Content = "PROCRASTINATION";
+var line1;
+var line2;
+var line3;
+
+/**
+ *
+ */
+
+function create() {
+
+  graphics = game.add.graphics(0,0);
+
+  gWidth = game.width;
+  gHeight = game.height;
+  gCenterX = gWidth / 2;
+  gCenterY = gHeight / 2;
+
+  presentsText = game.add.text(-100, -100, "RIKKOKIRI PRESENTS");
+  presentsText.font = "Federo";
+  presentsText.fontSize = 60;
+  presentsText.fill = "#ffffff";
+
+  var titlestyle = { font: "37px Helvetica", fill: "#ffffff", align: "center", fontWeight: "bold" };
+  line1 = game.add.text(0, 0, line1Content.join(""), titlestyle);
+  line2 = game.add.text(0, 0, line2Content, titlestyle);
+  line3 = game.add.text(0, 0, line3Content, titlestyle);
+
+  centerText(line1);
+
+  line2.fontSize += 17;
+  centerText(line2);
+
+  line3.fontSize += 11;
+  centerText(line3);
+
+  line1.y -= line2.height / 2 + 17;
+  line3.y += line2.height / 2 + 22;
+
+  // line1.setText("");
+  // line2.setText("");
+  // line3.setText("");
+
+}
+
+function update(){
+
+  // graphics.clear();
+
+
+
+}
+
+/* Method for centering the given text element */
+function centerText(toBeCentered){
+  toBeCentered.y = gCenterY - toBeCentered.height / 2;
+  toBeCentered.x = gCenterX - toBeCentered.width / 2;
+}
+
+
+</script>
+
+</body>
+</html>

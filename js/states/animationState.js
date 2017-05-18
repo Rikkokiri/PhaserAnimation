@@ -152,9 +152,9 @@ AnimationState.prototype.update = function() {
       displayPresentsText(delayCounter / 24);
     }
 
-    if(delayCounter >= 48){
+    if(delayCounter >= 72){
       animationNumber = 1;
-      delayCounter = 0;
+      delayCounter = -1;
     }
   }
 
@@ -162,26 +162,19 @@ AnimationState.prototype.update = function() {
   // => 4 seconds => 240 frames
   if(animationNumber == 1){
     delayCounter++;
-
-    if(delayCounter >= 30){
-      removePresentsText();
-    }
+    removePresentsText();
 
     // Display the title
     if(delayCounter % 30 == 0){
-      
+      disPlayTitleMessage(delayCounter / 30);
     }
 
     if(delayCounter >= 240){
+      removeTitle();
       delayCounter = 0;
       animationNumber = 7;
     }
   }
-
-  /*
-   * Show some text or something before bringing in the square?
-   */
-
 
   // Bring the one white square in at 5.3 seconds
   // Prepare for the next phase
