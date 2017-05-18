@@ -492,7 +492,8 @@ Rec.prototype = {
 
        var angleInRadians = angle * (Math.PI / 180);
 
-       var end = new Phaser.Line().fromAngle(this.center.x, this.center.y, angleInRadians, distance);
+       var end = new Phaser.Line().fromAngle(this.center.x, this.center.y, angleInRadians, distance).end;
+       console.log("end", end);
        this.centerOn(end.x, end.y);
 
      },
