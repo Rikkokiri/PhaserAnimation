@@ -210,7 +210,7 @@ AnimationState.prototype.update = function() {
 
   // Square explosion!
   if(animationNumber == 9){
-    drawGrid(this.graphics, littleSquares);
+    drawLittleSquares(this.graphics);
 
     animationNumber = 10;
     delayCounter = 0;
@@ -219,8 +219,6 @@ AnimationState.prototype.update = function() {
 
   if(animationNumber == 10){
 
-    calculateGoalPositionsForLittleSquares(this.game.width, this.game.height);
-    moveLittleSquares();
     delayCounter = 10;
     animationNumber = 11;
   }
