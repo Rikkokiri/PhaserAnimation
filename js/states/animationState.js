@@ -58,6 +58,7 @@ AnimationState.prototype = {
     // Create the this.graphics objects and so on...
     this.createEssentials();
 
+    prepareIntroTexts(this.game);
 
     // For square reveal
 
@@ -147,6 +148,10 @@ AnimationState.prototype.update = function() {
     // this.flashBackgroundColors(24, 0xffffff, 0x000000);  REMOVE
     delayCounter++;
 
+    if(delayCounter == 24 || delayCounter == 48){
+      displayPresentsText(delayCounter / 24);
+    }
+
     if(delayCounter >= 48){
       animationNumber = 1;
       delayCounter = 0;
@@ -157,6 +162,10 @@ AnimationState.prototype.update = function() {
   // => 4 seconds => 240 frames
   if(animationNumber == 1){
     delayCounter++;
+
+    if(delayCounter >= 30){
+      removePresentsText();
+    }
 
     if(delayCounter >= 240){
       delayCounter = 0;
@@ -172,6 +181,7 @@ AnimationState.prototype.update = function() {
   // Bring the one white square in at 5.3 seconds
   // Prepare for the next phase
   if(animationNumber == 7){
+
     delayCounter++;
 
     if(delayCounter >= 30){

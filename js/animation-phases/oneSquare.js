@@ -125,6 +125,23 @@ function moveLittleSquares(){
 
 }
 
+function calculateExplosionPoints(){
+
+
+    var numberOfRows = littleSquares.length;
+    var numberOfCols = littleSquares[0].length;
+
+    for(var row = 0; row < numberOfRows; row++){
+      for(var col = 0; col < numberOfCols; col++){
+
+        //
+        
+
+      }
+    }
+
+}
+
 // /**
 //  *
 //  */

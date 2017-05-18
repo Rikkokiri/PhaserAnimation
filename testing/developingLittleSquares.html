@@ -24,7 +24,7 @@
 
 <script type="text/javascript">
 
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { create: create, update: update });
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { create: create, update: update, render: render });
 
 var centerX = game.width / 2;
 var centerY = game.height / 2;
@@ -34,6 +34,11 @@ var animationNumber = 1;
 var delayCounter = 0;
 
 var testSquare;
+
+var testline;
+var linecolor = 0xddaaaa;
+
+var testText;
 
 function create() {
 
@@ -48,12 +53,39 @@ function create() {
 
   moveLittleSquares();
 
-  drawGrid(graphics, littleSquares);
+  // drawGrid(graphics, littleSquares);
 
   console.log(littleSquares);
 
   // calculateGoalPositionsForLittleSquares(this.game.width, this.game.height); d
   // moveLittleSquares();
+
+  // new Line(x1, y1, x2, y2)
+  testline = new Phaser.Line(50, 50, 500, 400);
+
+  // angle in radians = degrees * pi / 180
+  var angle = 90;
+  var angleInRadians = angle * (Math.PI / 180);
+
+  console.log(angleInRadians);
+
+  // fromAngle(x, y, angle, length)
+  testline.fromAngle(centerX, centerY, angleInRadians, 100);
+
+  var endpoint = testline.end;
+  console.log("endpoint", endpoint);
+
+  var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
+  testText = game.add.text(centerX, centerY, "Rikkokiri presents");
+  // testText.y = centerY - testText.height / 2;
+  // testText.x = centerX - testText.width / 2;
+
+  // testText.font = "Arial";
+  // testText.fontSize = 30;
+  // testText.fontWeight = 'bold';
+  testText.fill = '#fff';
+
+  console.log(testText);
 
 }
 
@@ -62,6 +94,12 @@ function update(){
   // graphics.clear();
 
 
+
+}
+
+function render() {
+
+  game.debug.geom(testline, linecolor);
 
 }
 
