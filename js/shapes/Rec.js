@@ -475,6 +475,28 @@ Rec.prototype = {
        this.stretchBottom(-amount / 2.0);
      },
 
+     // =====================================================
+
+     /**
+      * Move the rectangle a specified distance in to a direction given as angle
+      *
+      * @param {Number} distance - Distance the rectangle will be moved (as pixels).
+      *                            The distance is from current center point to center point after moving.
+      *                            If distance is not given, it will set to 0.
+      * @param {Number} angle - Angle (in degrees) determining the direction the rectangle will be moved to. Angle 0 is left, and 90 downwards (on xy-axis).
+      *                         If angle is not given, it will be set to 0.
+      */
+     moveDistanceInAngle(distance, angle){
+       if(distance === undefined) { distance = 0; }
+       if(angle === undefined ) { angle = 0; }
+
+       var angleInRadians = angle * (Math.PI / 180);
+
+       var end = new Phaser.Line().fromAngle(this.center.x, this.center.y, angleInRadians, distance);
+       this.centerOn(end.x, end.y);
+
+     },
+
 
      // ============= Some helper methods ===================
 

@@ -61,16 +61,19 @@ function create() {
   // moveLittleSquares();
 
   // new Line(x1, y1, x2, y2)
-  testline = new Phaser.Line(50, 50, 500, 400);
 
   // angle in radians = degrees * pi / 180
-  var angle = 90;
+  var angle = 56;
   var angleInRadians = angle * (Math.PI / 180);
 
   console.log(angleInRadians);
 
-  // fromAngle(x, y, angle, length)
-  testline.fromAngle(centerX, centerY, angleInRadians, 100);
+  // fromAngle(x, y, angle, length);
+  // testline = new Phaser.Line(50, 50, 500, 400);
+  // testline.fromAngle(centerX, centerY, angleInRadians, 100);
+  testline = new Phaser.Line(50, 50, 500, 400).fromAngle(centerX, centerY, angleInRadians, 100);
+
+
 
   var endpoint = testline.end;
   console.log("endpoint", endpoint);
@@ -84,6 +87,8 @@ function create() {
   // testText.fontSize = 30;
   // testText.fontWeight = 'bold';
   testText.fill = '#fff';
+
+
 
   console.log(testText);
 
