@@ -63,7 +63,6 @@ Square.prototype.shrink = function(amount){
  */
 Square.prototype.expand = function(amount){
   this.cornerDistance += amount;
-  console.log("Expand called");
 
   for( var point = 0; point < 4; point++ ){
     this.rec.points[point].rotate(this.center.x, this.center.y, 0, true, this.cornerDistance);

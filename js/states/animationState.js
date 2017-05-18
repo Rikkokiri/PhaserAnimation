@@ -236,8 +236,10 @@ AnimationState.prototype.update = function() {
         littleSquaresToSquareFormation();
       }
       if(delayCounter == 120){
-        spreadOutFormation();
+        // spreadOutFormation();
+        spaceySquareFormation();
       }
+
 
     }
 

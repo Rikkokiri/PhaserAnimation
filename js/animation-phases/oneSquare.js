@@ -118,8 +118,6 @@ function createLittleSquares(biggerSquare){
  */
 function calculateSpaceySquarePositions(biggerSquare){
 
-  console.log("biggerSquare", biggerSquare);
-
   var littlesize = littleSquares[0][0].sidelength;
 
   var sizeAddiotion = littleSquares[0].length * (0.4 * littlesize);
@@ -200,9 +198,6 @@ function moveLittleSquares(newPositions){
 
   var numberOfRows = littleSquares.length;
   var numberOfCols = littleSquares[0].length;
-
-  console.log("numberOfRows", numberOfRows);
-  console.log("numberOfCols", numberOfCols);
 
   for(var row = 0; row < numberOfRows; row++){
     for(var col = 0; col < numberOfCols; col++){
