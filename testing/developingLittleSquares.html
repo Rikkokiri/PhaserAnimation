@@ -51,11 +51,21 @@ function create() {
 
   console.log("Goal position", squareGoalPositions);
 
-  moveLittleSquares();
+  // moveLittleSquares(squareGoalPositions);
+  littleSquaresExplosion();
 
-  // drawGrid(graphics, littleSquares);
+  drawGrid(graphics, littleSquares);
 
   console.log(littleSquares);
+
+  testSquare = new Square(50, 50, 100, 0xffffff);
+
+  testSquare.moveDistanceInAngle(100, 90);
+
+
+  // testSquare.draw(graphics);
+
+
 
   // calculateGoalPositionsForLittleSquares(this.game.width, this.game.height); d
   // moveLittleSquares();
@@ -72,25 +82,8 @@ function create() {
   // testline = new Phaser.Line(50, 50, 500, 400);
   // testline.fromAngle(centerX, centerY, angleInRadians, 100);
   testline = new Phaser.Line(50, 50, 500, 400).fromAngle(centerX, centerY, angleInRadians, 100);
-
-
-
   var endpoint = testline.end;
-  console.log("endpoint", endpoint);
 
-  var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
-  testText = game.add.text(centerX, centerY, "Rikkokiri presents");
-  // testText.y = centerY - testText.height / 2;
-  // testText.x = centerX - testText.width / 2;
-
-  // testText.font = "Arial";
-  // testText.fontSize = 30;
-  // testText.fontWeight = 'bold';
-  testText.fill = '#fff';
-
-
-
-  console.log(testText);
 
 }
 
@@ -104,7 +97,7 @@ function update(){
 
 function render() {
 
-  game.debug.geom(testline, linecolor);
+  // game.debug.geom(testline, linecolor);
 
 }
 
