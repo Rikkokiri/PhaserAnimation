@@ -35,10 +35,16 @@ function prepareOneSquareAnimation(gameWidth, gameHeight){
 
 }
 
-function oneSquareSequence(phase){
-  
+function oneSquareSequence(phase, graphics){
+
   if(phase <= 2){
-    oneSquare.setSize(oneSquare.sidelength + ((delayCounter / 30) + 1) * 25);
+    if(oneSquare.sidelength == 1){
+      // Pretend that the sidelength starts from 0
+      oneSquare.setSize(oneSquare.sidelength - 1 + (phase + 1) * 20);
+    }
+    else {
+      oneSquare.setSize(oneSquare.sidelength + (phase + 1) * 20);
+    }
   }
   if(phase === 3){
     // oneSquare.rotateAroundCenter(-45);
@@ -61,6 +67,7 @@ function oneSquareSequence(phase){
   if(phase === 7){
     restoreOneSquareColor();
   }
+
 }
 
 /**
@@ -134,7 +141,12 @@ function calculateGoalPositionsForLittleSquares(gameWidth, gameHeight){
    }
 }
 
-function moveLittleSquares(){
+/**
+ * Move little squares to new positions stored in a 2D array newPositions
+ *
+ * @param {} newPositions - 2D array of new positions (Phaser.Point)
+ */
+function moveLittleSquares(newPositions){
 
   var numberOfRows = littleSquares.length;
   var numberOfCols = littleSquares[0].length;
@@ -145,16 +157,14 @@ function moveLittleSquares(){
   for(var row = 0; row < numberOfRows; row++){
     for(var col = 0; col < numberOfCols; col++){
 
-      var point = squareGoalPositions[row][col];
+      var point = newPositions[row][col];
       littleSquares[row][col].centerOn(point.x, point.y);
 
     }
   }
-
 }
 
-function calculateExplosionPoints(){
-
+function littleSquaresExplosionRandom(){
 
     var numberOfRows = littleSquares.length;
     var numberOfCols = littleSquares[0].length;
@@ -162,27 +172,37 @@ function calculateExplosionPoints(){
     for(var row = 0; row < numberOfRows; row++){
       for(var col = 0; col < numberOfCols; col++){
 
-        //
-
-
+        var distance = 100 * Math.random() + 100;
+        var angle = 360 * Math.random();
+        littleSquares[row][col].moveDistanceInAngle(distance, angle);
       }
     }
 
 }
 
-// /**
-//  *
-//  */
-// function drawLittleSquares(graphics){
-//
-//   for(var row = 0; row < littleSquares.length; row++){
-//     for(var col = 0; col < littleSquares[row].length; col++){
-//
-//       littleSquares[row][col].draw(graphics);
-//
-//     }
-//   }
-// }
+function littleSquaresExplosion(){
+
+    var numberOfRows = littleSquares.length;
+    var numberOfCols = littleSquares[0].length;
+
+    for(var row = 0; row < numberOfRows; row++){
+      for(var col = 0; col < numberOfCols; col++){
+
+        var distance = 100 * Math.random() + 100;
+        var angle = 360 * Math.random();
+        littleSquares[row][col].moveDistanceInAngle(distance, angle);
+      }
+    }
+
+}
+
+
+/**
+ *
+ */
+function drawLittleSquares(graphics){
+  drawGrid(graphics, littleSquares);
+}
 
 /**
  *
