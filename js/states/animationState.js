@@ -226,11 +226,22 @@ AnimationState.prototype.update = function() {
   if(animationNumber == 11){
     delayCounter++;
 
+    if(delayCounter % 30 == 0){
+
+      // JUST TESTING
+      if(delayCounter == 30 || delayCounter == 60){
+        littleSquaresExplosionRandom();
+      }
+      if(delayCounter == 90 || delayCounter == 180){
+        littleSquaresToSquareFormation();
+      }
+      if(delayCounter == 120){
+        spreadOutFormation();
+      }
+
+    }
+
     drawGrid(this.graphics, littleSquares);
-
-    // oneSquare.draw(this.graphics); //TODO
-
-
 
     // This will just be a placeholder for a while
     // Wait for the part where the square sliding sequence starts

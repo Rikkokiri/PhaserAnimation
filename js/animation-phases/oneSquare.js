@@ -12,7 +12,9 @@ var squareColor = 0xffffff;
 var explosionSize = 300;
 var littleSquares;
 
-var squareGoalPositions = [];
+var littleSquaresSquarePositions;
+var squareGoalPositions;
+var spaceySquarePositions = [];
 
 /*
  * Prepare for the animation sequence by defining some regularly used values
@@ -29,6 +31,9 @@ function prepareOneSquareAnimation(gameWidth, gameHeight){
   oneSquare = new Square(0, 0, explosionSize, squareColor);
   oneSquare.centerOn(cX, cY);
   createLittleSquares(oneSquare);
+
+  calculateGoalPositionsForLittleSquares(gameWidth, gameHeight);
+  calculateSpaceySquarePositions(oneSquare);
 
   // Make oneSquare disappear (make it tiny);
   oneSquare.setSize(1);
@@ -83,6 +88,7 @@ function createLittleSquares(biggerSquare){
   var endingY = biggerSquare.getPoint(2).y - littlesize;
   var endingX = biggerSquare.getPoint(2).x - littlesize;
 
+  littleSquaresSquarePositions = [];
   littleSquares = [];
 
   for(var y = startingY; y <= endingY; y += littlesize){
@@ -93,11 +99,53 @@ function createLittleSquares(biggerSquare){
       littleSquares[row] = [];
     }
 
+    if(littleSquaresSquarePositions[row] === undefined){
+      littleSquaresSquarePositions[row] = [];
+    }
+
     for(var x = startingX; x <= endingX; x += littlesize){
       // function Square (upperLeftX, upperLeftY, sidelength, color, linewidth, fill);
+      littleSquaresSquarePositions[row].push(new Phaser.Point(x, y));
       littleSquares[row].push(new Square(x, y, littlesize, squareColor, 0, true));
     }
 
+  }
+}
+
+/**
+ * Calculate positions for little squares that they will be in a square formation but
+ * there will be some space between them.
+ */
+function calculateSpaceySquarePositions(biggerSquare){
+
+  console.log("biggerSquare", biggerSquare);
+
+  var littlesize = littleSquares[0][0].sidelength;
+
+  var sizeAddiotion = littleSquares[0].length * (0.4 * littlesize);
+
+  var interval = (biggerSquare.sidelength + sizeAddiotion) / 10;
+  var startingY = biggerSquare.getPoint(0).y - (sizeAddiotion / 2);
+  var startingX = biggerSquare.getPoint(0).x - (sizeAddiotion / 2);
+
+  var endingY = biggerSquare.getPoint(2).y + (sizeAddiotion / 2);
+  var endingX = biggerSquare.getPoint(2).x + (sizeAddiotion / 2);
+
+  if(spaceySquarePositions === undefined){
+    spaceySquarePositions = [];
+  }
+
+  for(var y = startingY; y <= endingY; y += interval){
+
+    var row = (y - startingY) / interval;
+
+    if(spaceySquarePositions[row] === undefined){
+      spaceySquarePositions[row] = [];
+    }
+
+    for(var x = startingX; x <= endingX; x += interval){
+      spaceySquarePositions[row].push(new Phaser.Point(x, y));
+    }
   }
 }
 
@@ -119,6 +167,8 @@ function calculateGoalPositionsForLittleSquares(gameWidth, gameHeight){
 
    var numberOfRows = littleSquares.length;
    var numberOfCols = littleSquares[0].length;
+
+   squareGoalPositions = [];
 
    for(var row = 0; row < numberOfRows; row++){
 
@@ -162,6 +212,18 @@ function moveLittleSquares(newPositions){
 
     }
   }
+}
+
+function littleSquaresToSquareFormation(){
+  moveLittleSquares(littleSquaresSquarePositions);
+}
+
+function spreadOutFormation(){
+  moveLittleSquares(squareGoalPositions);
+}
+
+function spaceySquareFormation(){
+  moveLittleSquares(spaceySquarePositions);
 }
 
 function littleSquaresExplosionRandom(){
