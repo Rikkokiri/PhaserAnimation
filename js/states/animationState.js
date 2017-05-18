@@ -167,6 +167,11 @@ AnimationState.prototype.update = function() {
       removePresentsText();
     }
 
+    // Display the title
+    if(delayCounter % 30 == 0){
+      
+    }
+
     if(delayCounter >= 240){
       delayCounter = 0;
       animationNumber = 7;

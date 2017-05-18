@@ -9,6 +9,10 @@ var gCenterY;
 var game;
 
 var presentsText;
+var line1Content = ["The ", "result ", "of ", "days ", "of"];
+var line2Content = ["shameless", "procrastination"];
+var line1;
+var line2;
 
 /**
  *
@@ -28,6 +32,8 @@ function prepareIntroTexts(thisgame){
   presentsText.fontWeight = 'bold';
   presentsText.fill = "#ffffff";
 
+
+
 }
 
 
@@ -37,6 +43,9 @@ function centerText(toBeCentered){
   toBeCentered.x = gCenterX - toBeCentered.width / 2;
 }
 
+/**
+ * Method for displaying the "... presents" text
+ */
 function displayPresentsText(phase){
 
   if(phase == 1){
@@ -51,10 +60,68 @@ function displayPresentsText(phase){
 
 }
 
+// ----------- Methods for removing the text -----------
+/*
+ * These methods are not at all general and the functionality could be implemented using
+ * a general remove function. However, I didn't want to make references to specific variables
+ * from the animationState, so I ended up solving the text remove issue this way.
+ * It sucks, but I've written worse things. Especially in this project.
+ */
+
+/**
+ * Method for removing the present text
+ */
 function removePresentsText(){
   game.world.remove(presentsText);
 }
 
-function messageSequence(){
+/**
+ * Method for removing the title text
+ */
+function removeTitle(){
+  game.world.remove(line1);
+  game.world.remove(line2);
+}
 
+// -----------------------------------------------------
+
+function disPlayTitleMessage(phase){
+
+  if(phase == 1){
+
+  }
+  if(phase == 2){
+
+  }
+  if(phase == 3){
+
+  }
+  if(phase == 4){
+
+  }
+  if(phase == 5){
+
+  }
+  if(phase == 6){
+
+  }
+  if(phase == 7){
+
+  }
+
+}
+
+function gerTitleMessageSoFar(phase){
+  var subarray;
+
+  // First line
+  if(phase <= lineContent1.length){
+    subarray = lineContent1.slice(0, phase - 1);
+  }
+  // Second line
+  else {
+    subarray = lineContent2.slice(0, phase - 1);
+  }
+
+  return subarray.join();
 }
