@@ -14,7 +14,6 @@ var littleSquares;
 
 var littleSquaresSquarePositions;
 var squareGoalPositions;
-var spaceySquarePositions = [];
 
 // Lower right
 var explosionAngles =
@@ -130,26 +129,25 @@ function createLittleSquares(biggerSquare){
  * Calculate positions for little squares that they will be in a square formation but
  * there will be some space between them.
  */
-function calculateSpaceySquarePositions(biggerSquare){
+function calculateSpaceySquarePositions(biggerSquare, sizeAddition){
+
+  console.log("biggerSquare", biggerSquare);
+  console.log("sizeAddition", sizeAddition);
+
+  var spaceySquarePositions = [];
 
   var littlesize = littleSquares[0][0].sidelength;
 
-  var sizeAddiotion = littleSquares[0].length * (0.4 * littlesize);
+  var interval = (biggerSquare.sidelength + sizeAddition) / 10;
+  var startingY = biggerSquare.getPoint(0).y - (sizeAddition / 2);
+  var startingX = biggerSquare.getPoint(0).x - (sizeAddition / 2);
 
-  var interval = (biggerSquare.sidelength + sizeAddiotion) / 10;
-  var startingY = biggerSquare.getPoint(0).y - (sizeAddiotion / 2);
-  var startingX = biggerSquare.getPoint(0).x - (sizeAddiotion / 2);
+  var endingY = biggerSquare.getPoint(2).y + (sizeAddition / 2);
+  var endingX = biggerSquare.getPoint(2).x + (sizeAddition / 2);
 
-  var endingY = biggerSquare.getPoint(2).y + (sizeAddiotion / 2);
-  var endingX = biggerSquare.getPoint(2).x + (sizeAddiotion / 2);
-
-  if(spaceySquarePositions === undefined){
-    spaceySquarePositions = [];
-  }
+  var row = 0;
 
   for(var y = startingY; y <= endingY; y += interval){
-
-    var row = (y - startingY) / interval;
 
     if(spaceySquarePositions[row] === undefined){
       spaceySquarePositions[row] = [];
@@ -158,7 +156,12 @@ function calculateSpaceySquarePositions(biggerSquare){
     for(var x = startingX; x <= endingX; x += interval){
       spaceySquarePositions[row].push(new Phaser.Point(x, y));
     }
+
+    row++;
   }
+
+  console.log("New spacey positions", spaceySquarePositions);
+  return spaceySquarePositions;
 }
 
 /**
@@ -231,8 +234,10 @@ function spreadOutFormation(){
   moveLittleSquares(squareGoalPositions);
 }
 
-function spaceySquareFormation(){
-  moveLittleSquares(spaceySquarePositions);
+function spaceySquareFormation(sizeAddition){
+  var positions = calculateSpaceySquarePositions(oneSquare, sizeAddition);
+  console.log(positions);
+  moveLittleSquares(positions);
 }
 
 function littleSquaresExplosionRandom(){
@@ -302,6 +307,10 @@ function getBaseAngle(y, x){
  */
 function drawLittleSquares(graphics){
   drawGrid(graphics, littleSquares);
+}
+
+function drawOneSquare(graphics){
+  oneSquare.draw(graphics);
 }
 
 /**

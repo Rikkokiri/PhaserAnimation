@@ -39,6 +39,9 @@ var shrinkGoal;
 var returnGoal;
 var expanding = true;
 
+// -------- For little square animation --------
+var littleSquareSizeAddition = 0;
+
 // -------- For repeating state 30 -------
 var state30visited = 0;
 
@@ -80,6 +83,10 @@ AnimationState.prototype = {
 
     // music.play("PA");
     // animationNumber = 26;
+
+    // music.play("oneSquare");
+    // animationNumber = 7;
+
     music.play();
 
   },
@@ -104,6 +111,7 @@ AnimationState.prototype = {
     // addMarker(name, start, duration, volume, loop)
 
     // Lift the background
+    music.addMarker("oneSquare", 5.3, 90);
     music.addMarker("teeth", 13.3, 90);
     music.addMarker("xxzz", 17.3, 60);
     music.addMarker("xxzz2", 21.3, 60);
@@ -128,8 +136,6 @@ AnimationState.prototype = {
 
     // Lower rectangle
     twoRecs[1] = new Rec(this.game.width, (this.game.height / 2), (this.game.height / 2), this.game.width, 0x000000, 0, true);
-
-
 
   }
 
@@ -186,12 +192,14 @@ AnimationState.prototype.update = function() {
       animationNumber = 8;
       prepareOneSquareAnimation(this.game.width, this.game.height);
       delayCounter = -1;
-      oneSquare.draw(this.graphics);
+      drawOneSquare(this.graphics);
     }
 
   }
 
-  // Bring forward one square
+  /*
+   * ONE SQUARE SEQUENCE
+   */
   if(animationNumber == 8){
     delayCounter++;
 
@@ -199,10 +207,10 @@ AnimationState.prototype.update = function() {
       oneSquareSequence(delayCounter / 30);
     }
 
-    oneSquare.draw(this.graphics);
+    drawOneSquare(this.graphics);
 
-    if(delayCounter >= 210){
-      delayCounter = 0;
+    if(delayCounter >= 240){
+      delayCounter = -1;
       animationNumber = 9;
     }
 
@@ -210,16 +218,30 @@ AnimationState.prototype.update = function() {
 
   // Square explosion!
   if(animationNumber == 9){
+    delayCounter++;
+
+    if(delayCounter >= 0 && delayCounter < 30){
+      littleSquareSizeAddition = 100;
+    }
+    if(delayCounter >= 30){
+      littleSquareSizeAddition = 0;
+    }
+    // else if(delayCounter >= 30 && delayCounter < 60){
+    //   littleSquareSizeAddition -= 20;
+    // }
+
+    spaceySquareFormation(littleSquareSizeAddition);
     drawLittleSquares(this.graphics);
 
-    animationNumber = 10;
-    delayCounter = 0;
-    this.game.stage.backgroundColor = "0x000000"; // TODO Remove?
+    if(delayCounter >= 60){
+      animationNumber = 10;
+      delayCounter = 0;
+    }
+
   }
 
   if(animationNumber == 10){
-
-    delayCounter = 10;
+    delayCounter = 0;
     animationNumber = 11;
   }
 
@@ -228,25 +250,25 @@ AnimationState.prototype.update = function() {
 
     if(delayCounter % 30 == 0){
 
-      // JUST TESTING
-      if(delayCounter == 30 || delayCounter == 60){
-        // littleSquaresExplosionRandom();
-        spaceySquareFormation();
-      }
-      if(delayCounter == 90 || delayCounter == 180){
-        littleSquaresToSquareFormation();
-        // spaceySquareFormation();
-      }
-      if(delayCounter == 120){
-        // spreadOutFormation();
-        spaceySquareFormation();
-      }
-
+      // // JUST TESTING
+      // if(delayCounter == 30 || delayCounter == 60){
+      //   // littleSquaresExplosionRandom();
+      //   spaceySquareFormation();
+      // }
+      // if(delayCounter == 90 || delayCounter == 180){
+      //   littleSquaresToSquareFormation();
+      //   // spaceySquareFormation();
+      // }
+      // if(delayCounter == 120){
+      //   // spreadOutFormation();
+      //   spaceySquareFormation();
+      // }
 
     }
 
     drawGrid(this.graphics, littleSquares);
 
+    // -------- PLACEHOLDER FOR MISSING ANIMATION ? --------
     // This will just be a placeholder for a while
     // Wait for the part where the square sliding sequence starts
 
