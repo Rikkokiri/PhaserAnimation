@@ -40,6 +40,8 @@ function create() {
   testCircle = new Circle(300, 400, 200);
   testCircle.fill = false;
 
+  testCircle.expand(100);
+
   testCircle.draw(graphics);
 
   var square = testCircle.getOuterSquare();

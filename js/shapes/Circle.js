@@ -134,7 +134,13 @@ Circle.prototype = {
     * @param {Number} amount - How much circle's radius is decreased.
     */
    shrink: function(amount){
-     this.diameter -= amount;
+     if(this.getDiameter() - amount < 0){
+       this.circle.diameter = 0;
+     }
+     else {
+        this.circle.diameter -= amount;
+     }
+
    },
 
    /**
@@ -143,7 +149,7 @@ Circle.prototype = {
     * @param {Number} amount - How much circle's radius is increasesed
     */
    expand: function(amount){
-     this.diameter += amount;
+     this.circle.diameter += amount;
    },
 
 
@@ -153,7 +159,7 @@ Circle.prototype = {
     * Calculate the sidelength of the largest square that can fit inside the circle
     */
     squareSideLength: function(){
-      return Math.sqrt(2 * Math.pow((this.diameter / 2), 2));
+      return Math.sqrt(2 * Math.pow((this.circle.diameter / 2), 2));
     },
 
     /**

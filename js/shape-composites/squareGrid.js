@@ -1,22 +1,3 @@
-/**
- * Draw a grid of any shapes that have function draw() to given graphics
- *
- * @param {} graphics - TODO
- * @param {} grid - TODO
- */
-function drawGrid(graphics, grid) {
-
-  for(var row = 0; row < grid.length; row++){
-    for(var col = 0; col < grid[row].length; col++){
-
-      if(grid[row][col] !== undefined){
-        grid[row][col].draw(graphics);
-      }
-
-    }
-  }
-}
-
 // ===================== CREATE DIFFERENT SQUARE GRIDS =====================
 
 /**

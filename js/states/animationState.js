@@ -13,7 +13,8 @@ var startTime = 0;
 var animationNumber = 0;
 
 var delayCounter = 0;
-var delayNeeded = true;
+
+var counter = 0;
 
 // ------- For sliding squares ----------
 var bg;
@@ -51,6 +52,11 @@ var state30visited = 0;
 var rotationSum = 0;
 var rotationAngle = 1;
 
+// ------- For spinning squares ----------
+var roundedGrid;
+var circleGrid;
+var cornerradius = 1;
+
 AnimationState.prototype = {
 
   /*
@@ -74,7 +80,7 @@ AnimationState.prototype = {
 
     // - - -  Finally... Music! - - -
     music = this.game.add.audio('sail');
-    // this.addMarkers();
+    this.addMarkers();
 
     // music.play("xxzz");
     // animationNumber = 21;
@@ -88,7 +94,10 @@ AnimationState.prototype = {
     // music.play("oneSquare");
     // animationNumber = 7;
 
-    music.play();
+    music.play("circles");
+    animationNumber = 38;
+
+    // music.play();
 
   },
 
@@ -117,6 +126,8 @@ AnimationState.prototype = {
     music.addMarker("xxzz", 17.3, 60);
     music.addMarker("xxzz2", 21.3, 60);
     music.addMarker("PA", 25.3, 120);
+
+    music.addMarker("circles", 43.85, 60);
 
   },
 
@@ -150,6 +161,13 @@ AnimationState.prototype = {
 AnimationState.prototype.update = function() {
 
   this.graphics.clear();
+
+  // if(animationNumber >= 0 && animationNumber <= 37){
+  //   counter++;
+  // }
+  // else if(animationNumber > 37) {
+  //   console.log(counter);
+  // }
 
   /*
    * On first two beats display text "Rikkokiri presents"
@@ -586,6 +604,10 @@ AnimationState.prototype.update = function() {
     }
   }
 
+  /*
+   * At this update has run 2631 times => 43.85 seconds
+   */
+
   if(animationNumber == 38){
     delayCounter++;
 
@@ -612,16 +634,132 @@ AnimationState.prototype.update = function() {
     }
   }
 
+  /*
+   * Prepare to change squares to circles
+   */
   if(animationNumber == 40){
+    delayCounter++;
+
     drawGrid(this.graphics, checkeredGrid);
+    cornerradius = 1;
+    roundedGrid = createCheckeredHalfEmptyRoundedSquareGrid(this.game.width, this.game.height, 6, 0xffffff, true, cornerradius);
+
+    var overflow = 2 * roundedGrid[0][0].sidelength;
+    circleGrid = createOverflowingHalfEmptyCircleGrid(game.width, game.height, 6, 0xffffff, true, overflow, overflow);
+
+    if(delayCounter >= 48){
+      delayCounter = 0;
+      animationNumber = 41;
+    }
   }
 
-  // TODO Go from squares to circles
+  /*
+   * Go from squares to circles
+   * Start time 45.65
+   */
+  if(animationNumber == 41){
+    delayCounter ++;
+    cornerradius++;
 
+    if(cornerradius < 50 && delayCounter <  60){
+      roundedGrid = createCheckeredHalfEmptyRoundedSquareGrid(this.game.width, this.game.height, 6, 0xffffff, true, cornerradius);
+    }
+    else {
+      delayCounter = 0;
+      animationNumber = 42;
+    }
 
+    drawGrid(this.graphics, roundedGrid);
+  }
+
+  /*
+   * Circles, time 46.65 to 47.5 => 0.8 s => 51 frames
+   */
+  if(animationNumber == 42){
+    delayCounter++;
+
+    if(delayCounter <= 50){
+      slideShapesSidewaysToDirections(circleGrid, -2);
+    }
+
+    if(delayCounter > 51){
+      delayCounter = 0;
+      animationNumber = 43;
+    }
+
+    drawGrid(this.graphics, circleGrid);
+
+  }
+
+  /**
+   * Circles up, 25 frames
+   * Start at 47.5 + 0.33 s => 48.53
+   */
+  if(animationNumber == 43){
+    delayCounter++;
+
+    // Positive number -> even rows will slide down
+    slideShapesUpDownToDirections(circleGrid, 5);
+
+    drawGrid(this.graphics, circleGrid);
+
+    if(delayCounter >= 20){
+      delayCounter = 0;
+      animationNumber = 44;
+    }
+
+  }
+
+  /*
+   * Circles
+   * Moving takes 0.417 seconds
+   *
+   * End at 48.7 seconds
+   */
+  if(animationNumber == 44){
+    delayCounter++;
+
+    if(delayCounter <= 25){
+      slideShapesSidewaysToDirections(circleGrid, 4);
+    }
+
+    drawGrid(this.graphics, circleGrid);
+
+    if(delayCounter == 25 + 27){
+      delayCounter = -1;
+      animationNumber = 45;
+    }
+
+  }
+
+  if(animationNumber == 45){
+    delayCounter++;
+
+    if(delayCounter % 10 == 0){
+      expandShapes(circleGrid, 10);
+      console.log("Expand", circleGrid);
+    }
+
+    if(delayCounter >= 30){
+      animationNumber = 46;
+    }
+
+    drawGrid(this.graphics, circleGrid);
+
+  }
+
+  if(animationNumber == 46){
+
+    drawGrid(this.graphics, circleGrid);
+
+  }
 
 }
 
+
+/*
+ * ==================================  FUNCTIONS   ==================================
+ */
 
 AnimationState.prototype.flashBackgroundColors = function(interval, firstColor, secondColor) {
   delayCounter++;

@@ -60,7 +60,7 @@ function createFullCheckeredRoundedSquareGrid(gameWidth, gameHeight, squaresInCo
  * TODO Documentation!
  *
  */
-function createCheckeredHalfEmptyRoundedSquareGrid(gameWidth, gameHeight, squaresInColumn, color, startsFromCorner){
+function createCheckeredHalfEmptyRoundedSquareGrid(gameWidth, gameHeight, squaresInColumn, color, startsFromCorner, cornerradius){
 
     squareSize = gameHeight / squaresInColumn;
     squaresOnRow = gameWidth / squareSize;
@@ -83,10 +83,10 @@ function createCheckeredHalfEmptyRoundedSquareGrid(gameWidth, gameHeight, square
       // Rows starting with a square
       for(var x = 0; x <= gameWidth-squareSize; x += 2 * squareSize){
         if(startsFromCorner){
-          grid[row].push(new Square(x, y, squareSize, color));
+          grid[row].push(new RoundedSquare(x, y, squareSize, cornerradius, color));
         }
         else {
-          grid[row + 1].push(new Square(x, y + squareSize, squareSize, color));
+          grid[row + 1].push(new RoundedSquare(x, y + squareSize, squareSize, cornerradius, color));
         }
       }
 
@@ -104,3 +104,5 @@ function createCheckeredHalfEmptyRoundedSquareGrid(gameWidth, gameHeight, square
 
     return grid;
 }
+
+// ==================== =============================

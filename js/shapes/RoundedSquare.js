@@ -69,17 +69,32 @@ RoundedSquare.prototype = {
    * @param {Number} radius -
    */
   setRadius: function(radius){
-    this.cornerradius = radius;
+    this.square.radius;
   },
+
+  getRadius: function(){
+    return this.square.radius;
+  }
 
   // TODO METHODS FOR INCREASING AND DECREASING THE CORNERRADIUS
   increaseRadius: function(amount){
-    // Can't go below 1
+    // Going above sidelength / 2 doesn't change anything anymore
+    if(this.getRadius() + amount > this.sidelength / 2){
+      this.setRadius(this.sidelength / 2);
+    }
+    else {
+      this.square.radius += amount;
+    }
   },
 
   decreaseRadius: function(amount){
-    // Going above sidelength / 2 doesn't change anything anymore
-
+    // Can't go below 1
+    if(this.getRadius() - amount < 1){
+      this.setRadius(1);
+    }
+    else {
+      this.square.radius -= amount;
+    }
   },
 
 
@@ -93,11 +108,9 @@ RoundedSquare.prototype = {
     * @param {Number} distance - How many pixels the rectangle is moved upwards
     */
    moveUp: function(distance){
-     for(var point = 0; point < 4; point++){
-       this.rec.points[point].y -= distance;
-     }
-    // Update center
-    this.center.y -= distance;
+
+     // TODO
+
    },
 
    /**
@@ -113,11 +126,9 @@ RoundedSquare.prototype = {
     * @param {Number} distance - How many pixels the rectangle is moved left
     */
    moveLeft: function(distance){
-     for(var point = 0; point < 4; point++){
-       this.rec.points[point].x -= distance;
-     }
-     // Update center
-     this.center.x -= distance;
+
+     // TODO
+
    },
 
    /**
@@ -136,18 +147,7 @@ RoundedSquare.prototype = {
     */
     centerOn: function(x, y){
 
-      // Calculate the change in the coordinates
-      moveX = x - this.center.x;
-      moveY = y - this.center.y;
-
-      // Update the center coordinates
-      this.center.setTo(x, y);
-
-      // Update the corner coordinates
-      for( var point = 0; point < 4; point++ ){
-        this.rec.points[point].x += moveX;
-        this.rec.points[point].y += moveY;
-      }
+      // TODO
 
     },
 
@@ -182,17 +182,8 @@ RoundedSquare.prototype = {
     */
    shrink: function(amount){
 
-       if(this.cornerDistance >= 0){
+     // TODO
 
-         this.cornerDistance -= amount;
-
-         for( var point = 0; point < 4; point++ ){
-           this.rec.points[point].rotate(this.center.x, this.center.y, 0, true, this.cornerDistance);
-         }
-
-         this.sidelength = Math.sqrt(2 * Math.pow(this.cornerDistance, 2));
-
-       }
    },
 
    /**
@@ -202,13 +193,9 @@ RoundedSquare.prototype = {
     * @param {Number} amount - How much rectangle's corners are moved away from its center point.
     */
    expand: function(amount){
-     this.cornerDistance += amount;
 
-     for( var point = 0; point < 4; point++ ){
-       this.rec.points[point].rotate(this.center.x, this.center.y, 0, true, this.cornerDistance);
-     }
+     // TODO
 
-     this.sidelength = Math.sqrt(2 * Math.pow(this.cornerDistance, 2));
    }
 
 
