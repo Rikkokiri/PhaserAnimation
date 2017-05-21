@@ -290,7 +290,7 @@ function spinSquaresTwoDirections(graphics, grid, rotationAngle) {
  * Shrink the squares
  */
 function shrinkSquares(graphics, grid, amount){
-   // First rotate each square
+
    for(var row = 0; row < grid.length; row++){
      for(var index = 0; index < grid[row].length; index++){
        grid[row][index].shrink(amount);
@@ -305,7 +305,7 @@ function shrinkSquares(graphics, grid, amount){
   * Expand the squares
   */
 function expandSquares(graphics, grid, amount){
-    // First rotate each square
+
     for(var row = 0; row < grid.length; row++){
       for(var index = 0; index < grid[row].length; index++){
         grid[row][index].expand(amount);
