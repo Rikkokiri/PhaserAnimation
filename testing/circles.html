@@ -39,11 +39,19 @@ function create() {
 
   testCircle = new Circle(300, 400, 200);
   testCircle.fill = false;
-  testCircle.centerOn(0, 0);
 
   testCircle.draw(graphics);
 
+  var square = testCircle.getOuterSquare();
+  console.log(square);
+  // var rec = new Rec(600, 100, 100, 40);
+  // rec.fill = false;
+  // rec.draw(graphics);
 
+  // var square = new Square(100, 100, 200);
+  // square.fill = false;
+
+  square.draw(graphics);
 
 }
 

@@ -66,6 +66,10 @@ Circle.prototype = {
      return this.circle.y;
    },
 
+   getDiameter: function(){
+     return this.circle.diameter;
+   },
+
    // ------- METHODS FOR MOVING THE circle --------------
 
    /**
@@ -130,9 +134,7 @@ Circle.prototype = {
     * @param {Number} amount - How much circle's radius is decreased.
     */
    shrink: function(amount){
-
-     // TODO
-
+     this.diameter -= amount;
    },
 
    /**
@@ -141,20 +143,52 @@ Circle.prototype = {
     * @param {Number} amount - How much circle's radius is increasesed
     */
    expand: function(amount){
-
-     // TODO
-
-   }
+     this.diameter += amount;
+   },
 
 
    // --- OTHER METHOD IDEAS ---
 
    /**
     * Calculate the sidelength of the largest square that can fit inside the circle
-    *
-    * Another method for getting coordinates for such square?
     */
+    squareSideLength: function(){
+      return Math.sqrt(2 * Math.pow((this.diameter / 2), 2));
+    },
 
+    /**
+     * Get a square that's center point matches circle's center point
+     *
+     *  0  _____  1
+     *    |  .  |
+     *    |_____|
+     *  2         3
+     *
+     * sidelength >= 0
+     */
+     getSquare: function(sidelength){
 
+       var coord = [];
+
+       var x = this.getCenterX() - sidelength / 2;
+       var y = this.getCenterY()  - sidelength / 2;
+
+       return new Square(x, y, sidelength, this.color, this.linewidth, this.fill);
+     },
+
+     /**
+      * Get the largest square that can fit inside the circle.
+      */
+      getInnerSquare: function(){
+        var sidelength = this.squareSideLength();
+        return this.getSquare(sidelength);
+      },
+
+      /**
+       * Get a square that wraps right around the circle
+       */
+       getOuterSquare: function(){
+         return this.getSquare(this.getDiameter());
+       }
 
 }
