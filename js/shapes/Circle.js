@@ -25,7 +25,7 @@ function Circle (centerX, centerY, diameter, color, linewidth, fill) {
   if (linewidth === undefined) { linewidth = 1; }
   if (fill === undefined) { fill = true; }
 
-  this.diameter = diamater;
+  this.diameter = diameter;
   this.center = new Phaser.Point(centerX, centerY);
   this.color = color;
   this.linewidth = linewidth;
@@ -37,16 +37,16 @@ function Circle (centerX, centerY, diameter, color, linewidth, fill) {
 }
 
 
-Solidcircle.prototype = {
+Circle.prototype = {
 
   /**
    * Draw the circle.
    * @param {} graphics - The graphics object that is used for drawing the circle.
    */
-   drawCircle: function(graphics) {
+   draw: function(graphics) {
 
      // If the circle is filled with the color
-     if(fill){
+     if(this.fill){
        graphics.beginFill(this.color);
        graphics.drawCircle(this.circle.x, this.circle.y, this.circle.diameter);
        graphics.endFill();
@@ -55,7 +55,6 @@ Solidcircle.prototype = {
      else {
        graphics.lineStyle(this.linewidth, this.color, 1);
        graphics.drawCircle(this.circle.x, this.circle.y, this.circle.diameter);
-       graphics.lineTo(this.rec.points[3], this.rec.points[0])
      }
    },
 

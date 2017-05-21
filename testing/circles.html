@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Phaser - Testing Square</title>
+
+  <script src="../js/phaser.min.js"></script>
+  <script src="../js/shapes/Rec.js"></script>
+  <script src="../js/shapes/Square.js"></script>
+  <script src="../js/shapes/RoundedSquare.js"></script>
+  <script src="../js/shapes/Circle.js"></script>
+
+  <script src="../js/shape-composites/circleGrids.js"></script>
+  <script src="../js/shape-composites/squaresToCircles.js"></script>
+
+  <style type="text/css">
+
+    body {
+      margin: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { create: create, update: update, render: render });
+
+var centerX = game.width / 2;
+var centerY = game.height / 2;
+var graphics;
+
+var testCircle;
+
+function create() {
+
+  graphics = game.add.graphics(0,0);
+
+  testCircle = new Circle(300, 400, 200);
+  testCircle.fill = false;
+  testCircle.draw(graphics);
+
+}
+
+function update(){
+
+}
+
+function render(){
+
+}
+
+</script>
+
+</body>
+</html>
