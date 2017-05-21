@@ -53,9 +53,9 @@ Solidcircle.prototype = {
 
      }
      else {
-
-
-
+       graphics.lineStyle(this.linewidth, this.color, 1);
+       graphics.drawCircle(this.circle.x, this.circle.y, this.circle.diameter);
+       graphics.lineTo(this.rec.points[3], this.rec.points[0])
      }
    },
 
