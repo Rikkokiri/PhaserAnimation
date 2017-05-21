@@ -41,6 +41,7 @@ var expanding = true;
 
 // -------- For little square animation --------
 var littleSquareSizeAddition = 0;
+var littleSquareMoves;
 
 // -------- For repeating state 30 -------
 var state30visited = 0;
@@ -121,7 +122,8 @@ AnimationState.prototype = {
 
 
   /**
-   * TODO EXPLAIN
+   * Prepare shapes for the animation where rectangle first raises from the bottom
+   * of the screen and two rectangles then slide from the side.
    */
   prepareSlideAnimation: function() {
 
@@ -139,7 +141,7 @@ AnimationState.prototype = {
 
   }
 
-}
+} // End create()
 
 /*
  *                U P D A T E
@@ -149,9 +151,10 @@ AnimationState.prototype.update = function() {
 
   this.graphics.clear();
 
-  // Just wait for first two beats
+  /*
+   * On first two beats display text "Rikkokiri presents"
+   */
   if(animationNumber == 0){
-    // this.flashBackgroundColors(24, 0xffffff, 0x000000);  REMOVE
     delayCounter++;
 
     if(delayCounter == 24 || delayCounter == 48){
@@ -164,8 +167,9 @@ AnimationState.prototype.update = function() {
     }
   }
 
-  // Wait from 1.3 second mark to 5.3 second mark
-  // => 4 seconds => 240 frames
+  /*
+   * With next six beats, display the "title"
+   */
   if(animationNumber == 1){
     delayCounter++;
     removePresentsText();
@@ -182,8 +186,10 @@ AnimationState.prototype.update = function() {
     }
   }
 
-  // Bring the one white square in at 5.3 seconds
-  // Prepare for the next phase
+  /*
+   * Bring the one white square in at 5.3 seconds
+   * Prepare for the next phase
+   */
   if(animationNumber == 7){
 
     delayCounter++;
@@ -209,84 +215,84 @@ AnimationState.prototype.update = function() {
 
     drawOneSquare(this.graphics);
 
-    if(delayCounter >= 240){
+    if(delayCounter >= 180){
       delayCounter = -1;
-      animationNumber = 9;
+      animationNumber = 10;
+      oneSquareToOriginalSize();
     }
 
   }
 
   // Square explosion!
-  if(animationNumber == 9){
+  if(animationNumber == 10){
     delayCounter++;
 
     if(delayCounter >= 0 && delayCounter < 30){
-      littleSquareSizeAddition = 100;
+      littleSquareSizeAddition = 200;
     }
     if(delayCounter >= 30){
       littleSquareSizeAddition = 0;
     }
-    // else if(delayCounter >= 30 && delayCounter < 60){
-    //   littleSquareSizeAddition -= 20;
-    // }
 
     spaceySquareFormation(littleSquareSizeAddition);
     drawLittleSquares(this.graphics);
 
     if(delayCounter >= 60){
-      animationNumber = 10;
-      delayCounter = 0;
+      animationNumber = 11;
+      delayCounter = -1;
     }
 
   }
 
-  if(animationNumber == 10){
-    delayCounter = 0;
-    animationNumber = 11;
+
+  /*
+   * Prepare to move the little squares
+   */
+  if(animationNumber == 11){
+
+    var goalPoints = calculateGoalPositionsForLittleSquares(this.game.width, this.game.height);
+    var currentPositions = getLittleSquareCenters();
+    littleSquareMoves = calculateIncrementalMoves(goalPoints, currentPositions, 4);
+    animationNumber = 12;
+    delayCounter = -1;
+
   }
 
-  if(animationNumber == 11){
+  /*
+   * Little squares
+   * 180 + 30 frames
+   * Has to end with white screen
+   */
+  if(animationNumber == 12){
     delayCounter++;
 
     if(delayCounter % 30 == 0){
 
-      // // JUST TESTING
-      // if(delayCounter == 30 || delayCounter == 60){
-      //   // littleSquaresExplosionRandom();
-      //   spaceySquareFormation();
-      // }
-      // if(delayCounter == 90 || delayCounter == 180){
-      //   littleSquaresToSquareFormation();
-      //   // spaceySquareFormation();
-      // }
-      // if(delayCounter == 120){
-      //   // spreadOutFormation();
-      //   spaceySquareFormation();
+      if(delayCounter <= 90){
+        moveSquaresInAngle(littleSquareMoves);
+      }
+
+      // if(delayCounter == 60){
+      //   spreadOutFormation();
       // }
 
+      if(delayCounter >= 120 && delayCounter <= 180){
+        expandLittleSquares(13);
+      }
     }
 
-    drawGrid(this.graphics, littleSquares);
-
-    // -------- PLACEHOLDER FOR MISSING ANIMATION ? --------
-    // This will just be a placeholder for a while
-    // Wait for the part where the square sliding sequence starts
-
-    if(delayCounter == 200){
-      this.game.stage.backgroundColor = 0xffffff;
-    }
-
-    // Song at 17.4 seconds at this point
-    // Wait for 12.4 seconds?
-    // 60 fps => counter 60 * 12 = 720
-    if(delayCounter >= 240){
-      animationNumber = 18;
+    if(delayCounter == 210){
       delayCounter = 0;
+      animationNumber = 18;
     }
+
+    drawLittleSquares(this.graphics);
 
   }
 
-  // Prepare "the teeth"
+  /*
+   * Prepare for the "teeth" sequence
+   */
   if(animationNumber == 18){
     createTeeth(this.game.width, this.game.height);
     this.game.stage.backgroundColor = "0xffffff";
@@ -297,8 +303,6 @@ AnimationState.prototype.update = function() {
   /*
    * The teeth sequence will run from 13.3 s till 17.3 s and hence last 4 seconds
    * which equals to 240 frames (60 fps).
-   *
-   * Beats will go as follows: Move, move, wait, move, move, move wait, close gaps TODO Remove
    */
   if(animationNumber == 19){
     delayCounter++;
@@ -318,19 +322,9 @@ AnimationState.prototype.update = function() {
     if(delayCounter >= 240){
       this.game.stage.backgroundColor = "0x000000";
       delayCounter = 0;
-      animationNumber = 20;
-    }
-
-  }
-
-  if(animationNumber == 20){
-    delayCounter++;
-
-
-    if(delayCounter >= 30){
-      delayCounter = 0;
       animationNumber = 21;
     }
+
   }
 
   // ---------- START SEQUENCE FROM ANIMATION NUMBER 21 ----------
@@ -619,7 +613,6 @@ AnimationState.prototype.update = function() {
   }
 
   if(animationNumber == 40){
-    console.log("STATE 40");
     drawGrid(this.graphics, checkeredGrid);
   }
 

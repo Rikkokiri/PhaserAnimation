@@ -44,7 +44,7 @@ function prepareOneSquareAnimation(gameWidth, gameHeight){
   oneSquare.centerOn(cX, cY);
   createLittleSquares(oneSquare);
 
-  calculateGoalPositionsForLittleSquares(gameWidth, gameHeight);
+  squareGoalPositions = calculateGoalPositionsForLittleSquares(gameWidth, gameHeight);
   calculateSpaceySquarePositions(oneSquare);
 
   // Make oneSquare disappear (make it tiny);
@@ -79,13 +79,12 @@ function oneSquareSequence(phase, graphics){
     oneSquare.setSize(300);
   }
   if(phase === 6){
-    oneSquare.setColor(0x000000);
-  }
-  if(phase === 7){
     oneSquare.setSize(200);
-    restoreOneSquareColor();
   }
+}
 
+function oneSquareToOriginalSize(){
+  oneSquare.setSize(explosionSize);
 }
 
 /**
@@ -131,9 +130,6 @@ function createLittleSquares(biggerSquare){
  */
 function calculateSpaceySquarePositions(biggerSquare, sizeAddition){
 
-  console.log("biggerSquare", biggerSquare);
-  console.log("sizeAddition", sizeAddition);
-
   var spaceySquarePositions = [];
 
   var littlesize = littleSquares[0][0].sidelength;
@@ -160,7 +156,6 @@ function calculateSpaceySquarePositions(biggerSquare, sizeAddition){
     row++;
   }
 
-  console.log("New spacey positions", spaceySquarePositions);
   return spaceySquarePositions;
 }
 
@@ -183,12 +178,12 @@ function calculateGoalPositionsForLittleSquares(gameWidth, gameHeight){
    var numberOfRows = littleSquares.length;
    var numberOfCols = littleSquares[0].length;
 
-   squareGoalPositions = [];
+   var goalPoints = [];
 
    for(var row = 0; row < numberOfRows; row++){
 
-     if(squareGoalPositions[row] === undefined){
-       squareGoalPositions[row] = [];
+     if(goalPoints[row] === undefined){
+       goalPoints[row] = [];
      }
 
      for(var col = 0; col < numberOfCols; col++){
@@ -200,10 +195,50 @@ function calculateGoalPositionsForLittleSquares(gameWidth, gameHeight){
        var yCoord = 0.5 * yInterval + row * yInterval;
 
        // Save coordinates for square
-       squareGoalPositions[row][col] = new Phaser.Point(xCoord, yCoord);
+       goalPoints[row][col] = new Phaser.Point(xCoord, yCoord);
 
      }
    }
+
+   return goalPoints;
+}
+
+/**
+ *
+ */
+function calculateGoalPositionsForLittleSquaresCenterpoints(gameWidth, gameHeight){
+
+   var xInterval = gameWidth / littleSquares[0].length;
+   var yInterval = gameHeight / littleSquares.length;
+
+   var centeringAddition = littleSquares[0][0].sidelength / 2;
+
+   var numberOfRows = littleSquares.length;
+   var numberOfCols = littleSquares[0].length;
+
+   var goalPoints = [];
+
+   for(var row = 0; row < numberOfRows; row++){
+
+     if(goalPoints[row] === undefined){
+       goalPoints[row] = [];
+     }
+
+     for(var col = 0; col < numberOfCols; col++){
+
+       // Calculate x coordinate
+       var xCoord = 0.5 * xInterval + col * xInterval;
+
+       // Calculate y coordinate
+       var yCoord = 0.5 * yInterval + row * yInterval;
+
+       // Save coordinates for square
+       goalPoints[row][col] = new Phaser.Point(xCoord, yCoord);
+
+     }
+   }
+
+   return goalPoints;
 }
 
 /**
@@ -236,7 +271,6 @@ function spreadOutFormation(){
 
 function spaceySquareFormation(sizeAddition){
   var positions = calculateSpaceySquarePositions(oneSquare, sizeAddition);
-  console.log(positions);
   moveLittleSquares(positions);
 }
 
@@ -301,6 +335,19 @@ function getBaseAngle(y, x){
 
 }
 
+function expandLittleSquares(amount){
+
+  var numberOfRows = littleSquares.length;
+  var numberOfCols = littleSquares[0].length;
+
+  for(var row = 0; row < numberOfRows; row++){
+    for(var col = 0; col < numberOfCols; col++){
+
+      littleSquares[row][col].expand(amount);
+
+    }
+  }
+}
 
 /**
  *
@@ -313,13 +360,72 @@ function drawOneSquare(graphics){
   oneSquare.draw(graphics);
 }
 
+
 /**
  *
  */
-function calculateIncrementalMovePoints(numberOfPoints){
+function calculateIncrementalMoves(goalPoints, startingPoints, numberOfIncrementalPoints){
+
+  var moves = [];
+
+  for(var row = 0; row < startingPoints.length; row++){
+
+    if(moves[row] === undefined){
+      moves[row] = [];
+    }
+
+    for(var col = 0; col < startingPoints[row].length; col++){
+
+        var angle = Phaser.Point.angle(goalPoints[row][col], startingPoints[row][col]);
+        var angleInDegrees = angle * (180 / Math.PI);
+
+        var entireDistance = Phaser.Point.distance(startingPoints[row][col], goalPoints[row][col], false);
+        var moveDistance = entireDistance / numberOfIncrementalPoints;
+
+        moves[row][col] = {angle: angleInDegrees, distance: moveDistance };
+    }
+  }
+
+  return moves;
+}
+
+function moveSquaresInAngle(moves){
+
+  var numberOfRows = littleSquares.length;
+  var numberOfCols = littleSquares[0].length;
+
+  for(var row = 0; row < numberOfRows; row++){
+    for(var col = 0; col < numberOfCols; col++){
+
+      var distance = moves[row][col].distance;
+      var angle = moves[row][col].angle;
+
+      littleSquares[row][col].moveDistanceInAngle(distance, angle);
+
+    }
+  }
 
 }
 
-/**
- * Move squares
- */
+function getLittleSquareCenters(){
+
+  var numberOfRows = littleSquares.length;
+  var numberOfCols = littleSquares[0].length;
+
+  var centerPoints = [];
+
+  for(var row = 0; row < numberOfRows; row++){
+
+    if(centerPoints[row] === undefined){
+      centerPoints[row] = [];
+    }
+
+    for(var col = 0; col < numberOfCols; col++){
+      centerPoints[row][col] = littleSquares[row][col].center;
+    }
+  }
+
+  return centerPoints;
+}
+
+// ==============================================

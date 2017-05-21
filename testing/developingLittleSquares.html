@@ -31,7 +31,7 @@ var centerY = game.height / 2;
 var graphics;
 
 var animationNumber = 1;
-var delayCounter = 0;
+var delayCounter = -1;
 
 var testSquare;
 
@@ -45,22 +45,24 @@ function create() {
   graphics = game.add.graphics(0,0);
   prepareOneSquareAnimation(game.width, game.height);
 
-  // drawGrid(graphics, littleSquares);
+  littleSquaresToSquareFormation();
 
-  calculateGoalPositionsForLittleSquares(game.width, game.height);
+  // oneSquareToOriginalSize();
+  // spaceySquareFormation(0);
+  var goalPoints = calculateGoalPositionsForLittleSquaresCenterpoints(this.game.width, this.game.height);
+  var currentPositions = getLittleSquareCenters();
+  littleSquareMoves = calculateIncrementalMoves(goalPoints, currentPositions, 3);
+  //
+  moveSquaresInAngle(littleSquareMoves);
+  moveSquaresInAngle(littleSquareMoves);
+  // moveSquaresInAngle(littleSquareMoves);
+  // moveSquaresInAngle(littleSquareMoves);
 
-  console.log("Goal position", squareGoalPositions);
+  // spreadOutFormation();
 
-  // moveLittleSquares(squareGoalPositions);
-  // littleSquaresExplosion();
-
-  console.log(spaceySquarePositions);
-
-  // spaceySquareFormation();
-  littleSquaresExplosion();
   drawGrid(graphics, littleSquares);
 
-  console.log(littleSquares);
+  // console.log(littleSquares);
 
   testSquare = new Square(50, 50, 100, 0xffffff);
 
@@ -80,7 +82,7 @@ function create() {
   var angle = 56;
   var angleInRadians = angle * (Math.PI / 180);
 
-  console.log(angleInRadians);
+  //console.log(angleInRadians);
 
   // fromAngle(x, y, angle, length);
   // testline = new Phaser.Line(50, 50, 500, 400);
@@ -92,9 +94,28 @@ function create() {
 }
 
 function update(){
-
+  //
   // graphics.clear();
-
+  //
+  // delayCounter++;
+  // console.log("delayCounter", delayCounter);
+  //
+  // if(delayCounter % 30 == 0){
+  //
+  //   if(delayCounter <= 60){
+  //     moveSquaresInAngle(littleSquareMoves);
+  //   }
+  //
+  //   if(delayCounter == 60){
+  //     spreadOutFormation();
+  //   }
+  //
+  //   if(delayCounter >= 90 && delayCounter <= 150){
+  //     expandLittleSquares(13);
+  //   }
+  // }
+  //
+  // drawLittleSquares(graphics);
 
 
 }

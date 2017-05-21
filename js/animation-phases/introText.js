@@ -71,11 +71,9 @@ function displayPresentsText(phase){
   if(phase == 1){
     centerText(presentsText);
     presentsText.setText("RIKKOKIRI", true);
-    console.log("Display Rikkokiri");
   }
   if(phase == 2){
     presentsText.setText("RIKKOKIRI PRESENTS", true);
-    console.log("Display Rikkokiri presents");
   }
 
 }
