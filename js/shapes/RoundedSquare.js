@@ -79,7 +79,7 @@ RoundedSquare.prototype = {
 
   decreaseRadius: function(amount){
     // Going above sidelength / 2 doesn't change anything anymore
-    
+
   },
 
 
