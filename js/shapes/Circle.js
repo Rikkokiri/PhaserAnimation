@@ -58,6 +58,14 @@ Circle.prototype = {
      }
    },
 
+   getCenterX: function(){
+     return this.circle.x;
+   },
+
+   getCenterY: function(){
+     return this.circle.y;
+   },
+
    // ------- METHODS FOR MOVING THE circle --------------
 
    /**
@@ -65,9 +73,7 @@ Circle.prototype = {
     * @param {Number} distance - How many pixels the circle is moved upwards
     */
    moveUp: function(distance){
-
-     // TODO
-
+     this.circle.y -= distance;
    },
 
    /**
@@ -75,9 +81,7 @@ Circle.prototype = {
     * @param {Number} distance - How many pixels the circle is moved downwards
     */
    moveDown: function(distance){
-
-     // TODO
-
+     this.circle.y += distance;
    },
 
    /**
@@ -85,9 +89,7 @@ Circle.prototype = {
     * @param {Number} distance - How many pixels the circle is moved left
     */
    moveLeft: function(distance){
-
-     // TODO
-
+     this.circle.x -= distance;
    },
 
    /**
@@ -95,9 +97,7 @@ Circle.prototype = {
     * @param {Number} distance - How many pixels the circle is moved right
     */
    moveRight: function(distance){
-
-     // TODO
-
+     this.circle.x += distance;
    },
 
    /**
@@ -105,9 +105,8 @@ Circle.prototype = {
     * @param {}
     */
     centerOn: function(x, y){
-
-      // TODO
-
+      this.circle.x = x;
+      this.circle.y = y;
     },
 
    // ------- Change color? --------------
