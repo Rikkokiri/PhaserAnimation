@@ -93,15 +93,12 @@ AnimationState.prototype = {
     // - - -  Finally... Music! - - -
     music = this.game.add.audio('sail');
     this.addMarkers();
+    music.onFadeComplete.add(backToReadyState, this);
 
-    // music.play("circles");
-    // animationNumber = 38;
+    // music.play("credits");
+    // animationNumber = 49;
 
-
-    music.play("credits");
-    animationNumber = 49;
-
-    // music.play();
+    music.play("animationSong");
 
   },
 
@@ -124,17 +121,18 @@ AnimationState.prototype = {
 
     // addMarker(name, start, duration, volume, loop)
 
-    music.addMarker("animationSong", 0.0, 61);
+    music.addMarker("animationSong", 0.0, 65.8);
 
     // Lift the background
     music.addMarker("oneSquare", 5.3, 90);
+
     music.addMarker("teeth", 13.3, 90);
     music.addMarker("xxzz", 17.3, 60);
     music.addMarker("xxzz2", 21.3, 60);
     music.addMarker("PA", 25.3, 120);
 
     music.addMarker("circles", 43.85, 60);
-    music.addMarker("credits", 50.6, 60);
+    music.addMarker("credits", 50.6, 65.8-50.6);
 
   },
 
@@ -859,8 +857,13 @@ AnimationState.prototype.update = function() {
     fadeInCredit1.start();
   }
 
+  /*
+   * Credits 4 * 2 s => 8
+   * Start fading song at 60.7
+   * Song should end at 65.8
+   */
   if(animationNumber == 53){
-
+    music.fadeOut(8 * 1000);
   }
 
 }
@@ -904,6 +907,9 @@ function finishAnimation(){
   return;
 }
 
+function backToReadyState(){
+  this.game.state.start('ready');
+}
 /*
  * ==================================  FUNCTIONS   ==================================
  */
