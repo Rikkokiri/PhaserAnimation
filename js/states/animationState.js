@@ -95,10 +95,10 @@ AnimationState.prototype = {
     this.addMarkers();
     music.onFadeComplete.add(backToReadyState, this);
 
-    // music.play("credits");
-    // animationNumber = 49;
+    music.play("credits");
+    animationNumber = 49;
 
-    music.play("animationSong");
+    // music.play("animationSong");
 
   },
 
@@ -166,13 +166,6 @@ AnimationState.prototype = {
 AnimationState.prototype.update = function() {
 
   this.graphics.clear();
-
-  // if(animationNumber >= 0 && animationNumber <= 37){
-  //   counter++;
-  // }
-  // else if(animationNumber > 37) {
-  //   console.log(counter);
-  // }
 
   /*
    * On first two beats display text "Rikkokiri presents"
@@ -529,7 +522,7 @@ AnimationState.prototype.update = function() {
     else {
         // checkeredGrid = createCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", false);
         checkeredGrid = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", true, 100, 100);
-        // this.game.stage.backgroundColor = 0xffffff;
+
         rotationSum = 0;
         delayCounter = 0;
 
@@ -762,9 +755,7 @@ AnimationState.prototype.update = function() {
   if(animationNumber == 46){
 
     // createOverflowingCheckeredHalfEmptyGrid(gameWidth, gameHeight, squaresInColumn, color, startsFromCorner, overflowX, overflowY);
-    // checkeredGrid = createOverflowingCheckeredHalfEmptyGrid(this.game.whidth, this.game.height, 6, 0xff0000, true, 100, 100);
     checkeredGrid = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", true, 100, 100);
-    console.log(checkeredGrid);
 
     //shrinkSquares(graphics, grid, amount)
     shrinkSquares(this.graphics, checkeredGrid, 40);
@@ -807,9 +798,6 @@ AnimationState.prototype.update = function() {
   if(animationNumber == 48){
     delayCounter++;
 
-    // setGridOneColor(circleGrid, 0x000000);
-    // setGridOneColor(checkeredGrid, 0x000000);
-    // this.game.stage.backgroundColor = "0xFFFFFF";
     spinSquaresSameDirection(this.graphics, checkeredGrid, 45);
     expandSquares(this.graphics, checkeredGrid, 2);
 
@@ -841,8 +829,7 @@ AnimationState.prototype.update = function() {
    */
   if(animationNumber == 50){
 
-    // var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
-    creditstyle = { font: "37px Helvetica", fill: "#ffffff", align: "center", fontWeight: "300"};
+    creditstyle = { font: "37px Helvetica", fill: "#ffffff", align: "center", fontWeight: "bold" };
     credit1 = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Animation by Rikkokiri", creditstyle);
     credit1.anchor.set(0.5);
     credit1.alpha = 0.1;
@@ -869,7 +856,7 @@ AnimationState.prototype.update = function() {
 }
 
 function credit1FadeOutTween(){
-  console.log("credit1FadeOutTween");
+
   animationNumber = 52;
 
   fadeOutCredit1 = this.game.add.tween(credit1);
@@ -879,7 +866,6 @@ function credit1FadeOutTween(){
 }
 
 function credit2FadeInTween(){
-  console.log("credit2FadeInTween");
 
   credit2 = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Song \n Sail by AWOLNATION", creditstyle);
   credit2.anchor.set(0.5);
@@ -893,7 +879,6 @@ function credit2FadeInTween(){
 }
 
 function credit2FadeOutTween(){
-  console.log("CREDIT 2 FADE OUT!");
 
   fadeOutCredit2 = this.game.add.tween(credit2);
   fadeOutCredit2.to({alpha: 0}, 2000, "Linear");

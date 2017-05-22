@@ -132,7 +132,7 @@ function createOverflowingHalfEmptyCircleGrid(gameWidth, gameHeight, circlesInCo
  * Shrink the circles
  */
 function shrinkCircles(graphics, grid, amount){
-
+ d
   for(var row = 0; row < grid.length; row++){
      for(var index = 0; index < grid[row].length; index++){
        grid[row][index].shrink(amount);
