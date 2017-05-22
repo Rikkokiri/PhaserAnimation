@@ -95,10 +95,10 @@ AnimationState.prototype = {
     this.addMarkers();
     music.onFadeComplete.add(backToReadyState, this);
 
-    music.play("credits");
-    animationNumber = 49;
+    // music.play("credits");
+    // animationNumber = 49;
 
-    // music.play("animationSong");
+    music.play("animationSong");
 
   },
 
