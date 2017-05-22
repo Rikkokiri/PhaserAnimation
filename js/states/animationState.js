@@ -867,7 +867,7 @@ function credit1FadeOutTween(){
 
 function credit2FadeInTween(){
 
-  credit2 = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Song \n Sail by AWOLNATION", creditstyle);
+  credit2 = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Music \n Sail by AWOLNATION", creditstyle);
   credit2.anchor.set(0.5);
   credit2.alpha = 0.1;
 
