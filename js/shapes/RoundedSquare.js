@@ -74,7 +74,7 @@ RoundedSquare.prototype = {
 
   getRadius: function(){
     return this.square.radius;
-  }
+  },
 
   // TODO METHODS FOR INCREASING AND DECREASING THE CORNERRADIUS
   increaseRadius: function(amount){
