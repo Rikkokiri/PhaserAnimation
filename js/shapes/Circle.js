@@ -120,7 +120,7 @@ Circle.prototype = {
     * @param {Hexadecimal} newColor - The new color of the circle as a hexadecimal value.
     * The value must be a valid hexadecimal.
     */
-   setcolor: function(newColor){
+   setColor: function(newColor){
      this.color = newColor;
    },
 

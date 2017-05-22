@@ -57,6 +57,18 @@ var roundedGrid;
 var circleGrid;
 var cornerradius = 1;
 
+// ------- For credits ----------
+var credit1;
+var credit2;
+var creditstyle;
+
+var fadeInCredit1;
+var fadeOutCredit1;
+var fadeInCredit2;
+var fadeOutCredit2;
+
+
+
 AnimationState.prototype = {
 
   /*
@@ -80,12 +92,16 @@ AnimationState.prototype = {
 
     // - - -  Finally... Music! - - -
     music = this.game.add.audio('sail');
-    // this.addMarkers();
+    this.addMarkers();
 
     // music.play("circles");
     // animationNumber = 38;
 
-    music.play();
+
+    music.play("credits");
+    animationNumber = 49;
+
+    // music.play();
 
   },
 
@@ -108,6 +124,8 @@ AnimationState.prototype = {
 
     // addMarker(name, start, duration, volume, loop)
 
+    music.addMarker("animationSong", 0.0, 61);
+
     // Lift the background
     music.addMarker("oneSquare", 5.3, 90);
     music.addMarker("teeth", 13.3, 90);
@@ -116,6 +134,7 @@ AnimationState.prototype = {
     music.addMarker("PA", 25.3, 120);
 
     music.addMarker("circles", 43.85, 60);
+    music.addMarker("credits", 50.6, 60);
 
   },
 
@@ -720,12 +739,15 @@ AnimationState.prototype.update = function() {
 
   }
 
+  /*
+   * Expand circles
+   * From 48.7 to 49.2 => 0.5 s => 30 frames
+   */
   if(animationNumber == 45){
     delayCounter++;
 
     if(delayCounter % 10 == 0){
       expandShapes(circleGrid, 10);
-      console.log("Expand", circleGrid);
     }
 
     if(delayCounter >= 30){
@@ -736,14 +758,151 @@ AnimationState.prototype.update = function() {
 
   }
 
+  /*
+   * Create squares that will be placed between the circles
+   */
   if(animationNumber == 46){
 
+    // createOverflowingCheckeredHalfEmptyGrid(gameWidth, gameHeight, squaresInColumn, color, startsFromCorner, overflowX, overflowY);
+    // checkeredGrid = createOverflowingCheckeredHalfEmptyGrid(this.game.whidth, this.game.height, 6, 0xff0000, true, 100, 100);
+    checkeredGrid = createOverflowingCheckeredHalfEmptyGrid(this.game.width, this.game.height, squaresInColumn, "0x000000", true, 100, 100);
+    console.log(checkeredGrid);
+
+    //shrinkSquares(graphics, grid, amount)
+    shrinkSquares(this.graphics, checkeredGrid, 40);
+
+    // spinSquaresSameDirection(graphics, grid, rotationAngle)
+    spinSquaresSameDirection(this.graphics, checkeredGrid, 45);
+
+    delayCounter = -1;
+    animationNumber = 47;
+
+  }
+
+  /*
+   * Squares between circles
+   * From 49.2 to 49.8 => 0.6 s => 36 frames
+   *
+   * Actually: From 49.2 to 50.6 => 1.4 s => 84 frames
+   */
+  if(animationNumber == 47){
+    delayCounter++;
+
+    if(delayCounter == 9 || delayCounter == 18){
+      expandShapes(checkeredGrid, 3);
+    }
+
+    if(delayCounter >= 27){
+      expandShapes(checkeredGrid, 0.25);
+    }
+
     drawGrid(this.graphics, circleGrid);
+    drawGrid(this.graphics, checkeredGrid);
+
+    if(delayCounter == 84){
+      delayCounter = 0;
+      animationNumber = 48;
+    }
+
+  }
+
+  if(animationNumber == 48){
+    delayCounter++;
+
+    // setGridOneColor(circleGrid, 0x000000);
+    // setGridOneColor(checkeredGrid, 0x000000);
+    // this.game.stage.backgroundColor = "0xFFFFFF";
+    spinSquaresSameDirection(this.graphics, checkeredGrid, 45);
+    expandSquares(this.graphics, checkeredGrid, 2);
+
+    drawGrid(this.graphics, circleGrid);
+    drawGrid(this.graphics, checkeredGrid);
+
+    if(delayCounter == 5){
+      delayCounter = 0;
+      animationNumber = 49;
+    }
+
+  }
+
+  /*
+   * Wait from 50.6 till 52.7 => 1.1 s => 126 frames
+   */
+  if(animationNumber == 49){
+    delayCounter++;
+
+    if(delayCounter == 126){
+      delayCounter = 0;
+      animationNumber = 50;
+    }
+
+  }
+
+  /*
+   * "Roll" credits at 52.7
+   */
+  if(animationNumber == 50){
+
+    // var style = { font: "65px Arial", fill: "#ffffff", align: "center" };
+    creditstyle = { font: "37px Helvetica", fill: "#ffffff", align: "center", fontWeight: "300"};
+    credit1 = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Animation by Rikkokiri", creditstyle);
+    credit1.anchor.set(0.5);
+    credit1.alpha = 0.1;
+
+    fadeInCredit1 = this.game.add.tween(credit1).to( { alpha: 1 }, 2000, "Linear");
+    fadeInCredit1.onComplete.add(credit1FadeOutTween, this);
+    animationNumber = 51;
+
+  }
+
+  if(animationNumber == 51){
+    fadeInCredit1.start();
+  }
+
+  if(animationNumber == 53){
 
   }
 
 }
 
+function credit1FadeOutTween(){
+  console.log("credit1FadeOutTween");
+  animationNumber = 52;
+
+  fadeOutCredit1 = this.game.add.tween(credit1);
+  fadeOutCredit1.to({alpha: 0}, 2000, "Linear");
+  fadeOutCredit1.onComplete.addOnce(credit2FadeInTween, this);
+  fadeOutCredit1.start();
+}
+
+function credit2FadeInTween(){
+  console.log("credit2FadeInTween");
+
+  credit2 = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Song \n Sail by AWOLNATION", creditstyle);
+  credit2.anchor.set(0.5);
+  credit2.alpha = 0.1;
+
+  fadeInCredit2 = this.game.add.tween(credit2);
+  fadeInCredit2.to( { alpha: 1 }, 2000, "Linear");
+  fadeInCredit2.onComplete.addOnce(credit2FadeOutTween, this);
+  fadeInCredit2.start();
+
+}
+
+function credit2FadeOutTween(){
+  console.log("CREDIT 2 FADE OUT!");
+
+  fadeOutCredit2 = this.game.add.tween(credit2);
+  fadeOutCredit2.to({alpha: 0}, 2000, "Linear");
+  fadeOutCredit2.onComplete.addOnce(finishAnimation);
+  fadeOutCredit2.start();
+
+}
+
+function finishAnimation(){
+  animationNumber = 53;
+  return;
+}
 
 /*
  * ==================================  FUNCTIONS   ==================================

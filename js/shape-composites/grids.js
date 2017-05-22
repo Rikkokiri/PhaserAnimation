@@ -85,3 +85,19 @@ function expandShapes(grid, expandAmount){
     }
   }
 }
+
+/**
+ * @param {} grid -
+ * @param {Number} expandAmount -
+ */
+function setGridOneColor(grid, color){
+
+  for(var row = 0; row < grid.length; row++){
+    for(var col = 0; col < grid[row].length; col++){
+
+      if(grid[row][col] !== undefined){
+        grid[row][col].setColor(color);
+      }
+    }
+  }
+}
